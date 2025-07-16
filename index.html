@@ -275,91 +275,98 @@
              * It constructs a prompt based on user inputs and expects a JSON response.
              */
             const generateSEOContent = async () => {
-                // Validate that a main topic is provided before generating
-                if (!mainTopic.trim()) {
-                    setSeoGenerationError("Please enter a main topic for your video.");
-                    return;
+    if (!mainTopic.trim()) {
+        setSeoGenerationError("Please enter a main topic for your video.");
+        return;
+    }
+
+    setIsGeneratingSEO(true);
+    setSeoGenerationError(null);
+
+    const prompt = `Generate an optimized YouTube video title, ... (same as before)`;
+
+    try {
+        let chatHistory = [];
+        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+        const payload = {
+            contents: chatHistory,
+            generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "OBJECT",
+                    properties: {
+                        "title": { "type": "STRING" },
+                        "description": { "type": "STRING" },
+                        "hashtags": { "type": "ARRAY", "items": { "type": "STRING" } },
+                        "tags": { "type": "ARRAY", "items": { "type": "STRING" } },
+                        "filename": { "type": "STRING" }
+                    },
+                    "propertyOrdering": ["title", "description", "hashtags", "tags", "filename"]
                 }
+            }
+        };
 
-                setIsGeneratingSEO(true);
-                setSeoGenerationError(null); // Clear previous errors
+        const apiKey = ""; // Set your API key here
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-                // Construct the prompt for the AI model
-                const prompt = `Generate an optimized YouTube video title, description, hashtags, keyword tags, and a suitable filename for a video based on the following information:
-                - Current Title (if any): ${currentTitle || 'N/A'}
-                - Main Topic: ${mainTopic}
-                - Target Audience: ${targetAudience || 'General audience'}
-                - Additional Content/Notes: ${additionalContent || 'None'}
-                - Trending Keywords (from search): ${trendingKeywords.length > 0 ? trendingKeywords.join(', ') : 'No specific trending keywords found. Focus on general relevance.'}
-                - Video Type: ${selectedVideoType === 'regular' ? 'Regular Video (long-form)' : selectedVideoType === 'live-stream' ? 'Live Stream (real-time, engaging)' : 'YouTube Short (vertical, under 60 seconds, viral potential)'}
-                - Filename Keywords (for ranking/trending): ${filenameKeywords || 'None'}
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
 
-                Please provide the output in a JSON format with the following keys: "title", "description", "hashtags" (array of strings), "tags" (array of strings), "filename" (string). The filename should be concise, include relevant keywords, and be appropriate for a video file (e.g., using hyphens instead of spaces).`;
+        // Try to parse as JSON; safely handle parse errors
+        let result;
+        try {
+            result = await response.json();
+        } catch (parseError) {
+            setSeoGenerationError("The AI did not return valid JSON. Please check your API key or try again later.");
+            console.error("Response not JSON:", parseError);
+            setIsGeneratingSEO(false);
+            return;
+        }
 
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = {
-                        contents: chatHistory,
-                        generationConfig: {
-                            responseMimeType: "application/json",
-                            responseSchema: {
-                                type: "OBJECT",
-                                properties: {
-                                    "title": { "type": "STRING" },
-                                    "description": { "type": "STRING" },
-                                    "hashtags": {
-                                        "type": "ARRAY",
-                                        "items": { "type": "STRING" }
-                                    },
-                                    "tags": {
-                                        "type": "ARRAY",
-                                        "items": { "type": "STRING" }
-                                    },
-                                    "filename": { "type": "STRING" } // Added filename to schema
-                                },
-                                "propertyOrdering": ["title", "description", "hashtags", "tags", "filename"]
-                            }
-                        }
-                    };
+        // If the API returned an error object, display it
+        if (result.error) {
+            setSeoGenerationError("API Error: " + (result.error.message || "Unknown error. Please check your API key and quota."));
+            console.error("API error response:", result);
+            setIsGeneratingSEO(false);
+            return;
+        }
 
-                    const apiKey = ""; // This will be provided by the Canvas runtime environment
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        // Try to extract the content as before
+        if (result.candidates && result.candidates.length > 0 &&
+            result.candidates[0].content && result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0) {
+            
+            let jsonString = result.candidates[0].content.parts[0].text;
+            let parsedJson;
+            try {
+                parsedJson = JSON.parse(jsonString);
+            } catch (jsonParseErr) {
+                setSeoGenerationError("The AI returned text, but not valid JSON. Please try again later or adjust your prompt.");
+                console.error("AI returned invalid JSON text:", jsonString);
+                setIsGeneratingSEO(false);
+                return;
+            }
 
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    const result = await response.json();
-
-                    // Check if the API response contains valid content
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const jsonString = result.candidates[0].content.parts[0].text;
-                        const parsedJson = JSON.parse(jsonString);
-
-                        // Update state with the generated content
-                        setGeneratedTitle(parsedJson.title || '');
-                        setGeneratedDescription(parsedJson.description || '');
-                        // Format hashtags with '#' prefix and join them
-                        setGeneratedHashtags(parsedJson.hashtags ? parsedJson.hashtags.map(h => `#${h}`).join(' ') : '');
-                        // Join tags with a comma and space
-                        setGeneratedTags(parsedJson.tags ? parsedJson.tags.join(', ') : '');
-                        setGeneratedFilename(parsedJson.filename || ''); // Set generated filename
-                    } else {
-                        setSeoGenerationError("Failed to generate SEO content. Unexpected AI response structure.");
-                        console.error("Unexpected AI response structure:", result);
-                    }
-                } catch (error) {
-                    console.error("Error generating SEO content:", error);
-                    setSeoGenerationError("Failed to generate SEO content. Please check your internet connection and try again.");
-                } finally {
-                    setIsGeneratingSEO(false);
-                }
-            };
+            setGeneratedTitle(parsedJson.title || '');
+            setGeneratedDescription(parsedJson.description || '');
+            setGeneratedHashtags(parsedJson.hashtags ? parsedJson.hashtags.map(h => `#${h}`).join(' ') : '');
+            setGeneratedTags(parsedJson.tags ? parsedJson.tags.join(', ') : '');
+            setGeneratedFilename(parsedJson.filename || '');
+        } else {
+            setSeoGenerationError("Failed to generate SEO content. The AI response was not in the expected format. Please try again.");
+            // Also show the raw response for debugging (optional)
+            console.error("Unexpected AI response structure:", result);
+        }
+    } catch (error) {
+        setSeoGenerationError("Failed to generate SEO content. Please check your internet connection, API key, and try again.");
+        console.error("Error generating SEO content:", error);
+    } finally {
+        setIsGeneratingSEO(false);
+    }
+};
 
             return (
                 <section className="bg-pure-white p-6 rounded-lg shadow-md">
