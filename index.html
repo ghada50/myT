@@ -1,294 +1,591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="description" content="Advanced AI-powered YouTube Video SEO Tool for ranking, tags, descriptions, titles, and audience targeting.">
-  <meta name="keywords" content="YouTube, SEO, Video Ranking, Tags, Description, Title, Audience, AI, Generator, Tool">
-  <meta name="author" content="AI SEO Tool">
-  <title>YouTube AI Video SEO & Ranking Generator</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      background: linear-gradient(120deg, #232526 0%, #414345 100%);
-      color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #1a1d21;
-      padding: 30px 0 20px 0;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    header h1 {
-      color: #ffe082;
-      margin: 0 0 10px;
-      font-size: 2.5rem;
-      letter-spacing: 1px;
-    }
-    header p {
-      color: #bdbdbd;
-      margin: 0;
-      font-size: 1.1rem;
-    }
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #232526;
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-      padding: 36px 32px 32px 32px;
-    }
-    form label {
-      display: block;
-      margin-top: 22px;
-      margin-bottom: 7px;
-      font-weight: 700;
-      color: #ffe082;
-      letter-spacing: 0.5px;
-    }
-    form input, form textarea, form select {
-      width: 100%;
-      padding: 13px;
-      border-radius: 7px;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      margin-bottom: 7px;
-      background: #31363b;
-      color: #fffde7;
-      transition: border 0.2s;
-    }
-    form input:focus, form textarea:focus, form select:focus {
-      border: 2px solid #ffe082;
-    }
-    .btn {
-      background: linear-gradient(90deg, #ffe082 0%, #f57c00 80%);
-      color: #222;
-      border: none;
-      padding: 15px 38px;
-      font-size: 1.15rem;
-      font-weight: 700;
-      border-radius: 9px;
-      cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 2px 8px rgba(245,124,0,0.08);
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn:hover {
-      background: linear-gradient(90deg, #ffd54f 0%, #ff9800 100%);
-      transform: translateY(-2px) scale(1.02);
-    }
-    .result-section {
-      margin-top: 42px;
-      padding: 30px 20px;
-      background: #202328;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(33,33,33,0.09);
-      display: none;
-    }
-    .result-section h2 {
-      color: #ffc107;
-      margin-bottom: 16px;
-      font-size: 1.4rem;
-    }
-    .result-block {
-      margin-bottom: 18px;
-      position: relative;
-      background: #292c31;
-      border-radius: 7px;
-      padding: 18px 18px 18px 23px;
-      border-left: 6px solid #ffe082;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      color: #ffe082;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.12rem;
-      transition: color 0.2s;
-    }
-    .copy-btn:hover {
-      color: #f57c00;
-    }
-    .tags-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 0.5em;
-    }
-    .tag {
-      background: #393e46;
-      color: #ffe082;
-      padding: 6px 14px;
-      border-radius: 16px;
-      font-size: 0.97rem;
-      margin-bottom: 4px;
-    }
-    .icon {
-      margin-right: 8px;
-      color: #ffe082;
-      font-size: 1.1em;
-    }
-    @media (max-width: 600px) {
-      .container { padding: 18px 7px; }
-      .result-section { padding: 14px 5px; }
-      form input, form textarea, form select { font-size: 0.98rem; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1><i class="fab fa-youtube"></i> AI YouTube SEO & Video Ranking Generator</h1>
-    <p>Generate perfect titles, tags, descriptions, and audience targeting for any video style/theme using AI!</p>
-  </header>
-
-  <div class="container">
-    <form id="seoForm" autocomplete="off">
-      <label for="videoTheme"><i class="fas fa-palette icon"></i>Video Theme or Genre</label>
-      <input type="text" id="videoTheme" name="videoTheme" placeholder="e.g. Gaming, Tutorials, Vlogs, Reviews" required>
-
-      <label for="videoStyle"><i class="fas fa-video icon"></i>Video Style</label>
-      <input type="text" id="videoStyle" name="videoStyle" placeholder="e.g. Cinematic, Educational, Entertaining" required>
-
-      <label for="targetAudience"><i class="fas fa-users icon"></i>Target Audience</label>
-      <input type="text" id="targetAudience" name="targetAudience" placeholder="e.g. Teenagers, Tech Enthusiasts, Parents" required>
-
-      <label for="keywords"><i class="fas fa-search icon"></i>Focus Keywords (comma separated)</label>
-      <input type="text" id="keywords" name="keywords" placeholder="e.g. productivity, study tips, motivation" required>
-
-      <label for="tone"><i class="fas fa-microphone icon"></i>Preferred Tone</label>
-      <select id="tone" name="tone">
-        <option value="Informative">Informative</option>
-        <option value="Entertaining">Entertaining</option>
-        <option value="Motivational">Motivational</option>
-        <option value="Professional">Professional</option>
-        <option value="Casual">Casual</option>
-      </select>
-
-      <button type="submit" class="btn"><i class="fas fa-magic"></i> Generate SEO Details</button>
-    </form>
-
-    <section class="result-section" id="resultSection">
-      <h2><i class="fas fa-bolt"></i> AI-Generated Video SEO Details</h2>
-      <div class="result-block" id="titleBlock">
-        <b><i class="fas fa-heading"></i> Title:</b>
-        <span id="videoTitle"></span>
-        <button class="copy-btn" data-copy="videoTitle" title="Copy Title"><i class="fas fa-copy"></i></button>
-      </div>
-      <div class="result-block" id="descBlock">
-        <b><i class="fas fa-align-left"></i> Description:</b>
-        <span id="videoDescription"></span>
-        <button class="copy-btn" data-copy="videoDescription" title="Copy Description"><i class="fas fa-copy"></i></button>
-      </div>
-      <div class="result-block" id="tagsBlock">
-        <b><i class="fas fa-tags"></i> Tags:</b>
-        <div id="videoTags" class="tags-list"></div>
-        <button class="copy-btn" data-copy="videoTags" title="Copy Tags"><i class="fas fa-copy"></i></button>
-      </div>
-      <div class="result-block" id="audienceBlock">
-        <b><i class="fas fa-bullseye"></i> Audience Targeting:</b>
-        <span id="audienceTarget"></span>
-        <button class="copy-btn" data-copy="audienceTarget" title="Copy Audience Targeting"><i class="fas fa-copy"></i></button>
-      </div>
-      <div class="result-block" id="jsonBlock">
-        <b><i class="fas fa-code"></i> JSON Export:</b>
-        <pre id="jsonExport" style="white-space: pre-wrap;word-break: break-word;"></pre>
-        <button class="copy-btn" data-copy="jsonExport" title="Copy JSON"><i class="fas fa-copy"></i></button>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    // Example AI generation functions - replace with real AI API integration for production!
-    function generateTitle(theme, style, audience, keywords, tone) {
-      return `${theme} ${style} for ${audience}: ${capitalizeFirst(keywords.split(',')[0].trim())} Tips & Insights! [${tone}]`;
-    }
-    function generateDescription(theme, style, audience, keywords, tone) {
-      return `Unlock the secrets of ${theme} in this ${style.toLowerCase()} video, crafted for ${audience}. Discover top tips about ${keywords.split(',').map(k=>k.trim()).join(', ')}. Whether you're new or experienced, this video will boost your knowledge and keep you engaged. Don't forget to like, subscribe, and share for more ${theme} content!`;
-    }
-    function generateTags(theme, style, audience, keywords) {
-      const extraTags = [theme, style, audience, ...keywords.split(',').map(k=>k.trim())];
-      return Array.from(new Set(extraTags.map(t=>toTag(t))));
-    }
-    function toTag(str) {
-      return str.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
-    }
-    function capitalizeFirst(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-    function generateAudienceTargeting(audience, theme) {
-      return `Targeted for ${audience} interested in ${theme}.`;
-    }
-
-    document.getElementById('seoForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // get fields
-      const theme = document.getElementById('videoTheme').value.trim();
-      const style = document.getElementById('videoStyle').value.trim();
-      const audience = document.getElementById('targetAudience').value.trim();
-      const keywords = document.getElementById('keywords').value.trim();
-      const tone = document.getElementById('tone').value;
-
-      // AI generation (mock)
-      const title = generateTitle(theme, style, audience, keywords, tone);
-      const description = generateDescription(theme, style, audience, keywords, tone);
-      const tags = generateTags(theme, style, audience, keywords);
-      const audienceTarget = generateAudienceTargeting(audience, theme);
-
-      // Display results
-      document.getElementById('videoTitle').innerText = title;
-      document.getElementById('videoDescription').innerText = description;
-      document.getElementById('videoTags').innerHTML = tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ');
-      document.getElementById('audienceTarget').innerText = audienceTarget;
-
-      // JSON Export
-      const jsonObj = {
-        title, description, tags, audienceTarget,
-        theme, style, keywords: keywords.split(',').map(k=>k.trim()), tone
-      };
-      document.getElementById('jsonExport').innerText = JSON.stringify(jsonObj, null, 2);
-
-      document.getElementById('resultSection').style.display = 'block';
-    });
-
-    // Copy functionality
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        const targetId = btn.getAttribute('data-copy');
-        let text = '';
-        if(targetId === 'videoTags'){
-          text = Array.from(document.querySelectorAll('#videoTags .tag')).map(e=>e.textContent).join(', ');
-        }else{
-          text = document.getElementById(targetId).innerText;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube SEO Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
         }
-        copyTextToClipboard(text);
-        btn.innerHTML = '<i class="fas fa-check"></i>';
-        setTimeout(()=>{btn.innerHTML='<i class="fas fa-copy"></i>';}, 1250);
-      });
-    });
+        .container {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .input-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .input-group input,
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #555;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #f9f9f9;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #6366f1; /* Indigo-500 */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Indigo-500 with transparency */
+        }
+        .btn-primary {
+            background-color: #6366f1; /* Indigo-500 */
+            color: white;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 17px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5; /* Indigo-600 */
+            transform: translateY(-2px);
+        }
+        .btn-copy {
+            background-color: #e0e7ff; /* Indigo-100 */
+            color: #4f46e5; /* Indigo-600 */
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-copy:hover {
+            background-color: #c7d2fe; /* Indigo-200 */
+            color: #312e81; /* Indigo-800 */
+        }
+        .output-section {
+            background-color: #f8fafc; /* Light blue-gray */
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .output-section h3 {
+            color: #333;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .output-content {
+            white-space: pre-wrap; /* Preserves newlines and wraps text */
+            word-wrap: break-word; /* Breaks long words */
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            padding-right: 40px; /* Space for copy button */
+        }
+        .output-tags, .output-hashtags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .output-tag-item {
+            background-color: #e0e7ff; /* Indigo-100 */
+            color: #4f46e5; /* Indigo-600 */
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #6366f1;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .message-box {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: #555;
+        }
+        .radio-group input[type="radio"] {
+            margin-right: 8px;
+            transform: scale(1.2); /* Slightly larger radio buttons */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
+            <i class="fab fa-youtube text-red-500 mr-3"></i>YouTube SEO Generator
+        </h1>
+        <p class="text-center text-gray-600 mb-10 leading-relaxed">
+            Effortlessly generate SEO-optimized titles, descriptions, and tags for your YouTube videos.
+            Just provide your video details, and let AI do the heavy lifting!
+        </p>
 
-    function copyTextToClipboard(text) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text);
-      } else {
-        // fallback
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-      }
-    }
-  </script>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="input-group">
+                <label for="videoTopic">Video Topic/Main Idea:</label>
+                <input type="text" id="videoTopic" placeholder="e.g., How to Edit Videos Faster" class="focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="input-group">
+                <label for="videoTheme">Video Theme/Style:</label>
+                <select id="videoTheme" class="focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">Select Video Theme/Style</option>
+                    <option value="educational">Educational</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="vlog">Vlog</option>
+                    <option value="tutorial">Tutorial/How-to</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="review">Product Review</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="music">Music</option>
+                    <option value="diy_crafts">DIY/Crafts</option>
+                    <option value="cooking_food">Cooking/Food</option>
+                    <option value="travel">Travel</option>
+                    <option value="fitness">Fitness</option>
+                    <option value="beauty_fashion">Beauty/Fashion</option>
+                    <option value="news_current_events">News/Current Events</option>
+                    <option value="documentary">Documentary</option>
+                    <option value="interview">Interview</option>
+                    <option value="challenge">Challenge</option>
+                    <option value="unboxing">Unboxing</option>
+                    <option value="qna">Q&A</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="targetAudience">Target Audience:</label>
+                <select id="targetAudience" class="focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">Select Target Audience</option>
+                    <option value="beginners">Beginners</option>
+                    <option value="advanced_users">Advanced Users</option>
+                    <option value="kids_children">Kids/Children</option>
+                    <option value="teens">Teens</option>
+                    <option value="young_adults">Young Adults (18-30)</option>
+                    <option value="adults">Adults (30-50)</option>
+                    <option value="seniors">Seniors</option>
+                    <option value="gamers">Gamers</option>
+                    <option value="students">Students</option>
+                    <option value="professionals">Professionals</option>
+                    <option value="parents">Parents</option>
+                    <option value="food_enthusiasts">Food Enthusiasts</option>
+                    <option value="tech_enthusiasts">Tech Enthusiasts</option>
+                    <option value="artists_creatives">Artists/Creatives</option>
+                    <option value="fitness_enthusiasts">Fitness Enthusiasts</option>
+                    <option value="travelers">Travelers</option>
+                    <option value="small_business_owners">Small Business Owners</option>
+                    <option value="general_public">General Public</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="videoContentType">Video Content Type:</label>
+                <select id="videoContentType" class="focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">Select Video Content Type</option>
+                    <option value="tutorial">Tutorial/How-to</option>
+                    <option value="vlog">Vlog</option>
+                    <option value="review">Product Review</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="education">Educational</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="unboxing">Unboxing</option>
+                    <option value="challenge">Challenge</option>
+                    <option value="qna">Q&A</option>
+                    <option value="music">Music Video</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group mb-8">
+            <label>Upload Type:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="uploadType" value="regular" checked> Regular Video
+                </label>
+                <label>
+                    <input type="radio" name="uploadType" value="short"> YouTube Short
+                </label>
+                <label>
+                    <input type="radio" name="uploadType" value="live"> Live Stream
+                </label>
+            </div>
+        </div>
+
+        <div class="input-group mb-8">
+            <label for="keyPoints">Key Points/Content Highlights (Optional):</label>
+            <textarea id="keyPoints" rows="3" placeholder="e.g., Covers basic editing, uses free software, shows export settings. (Separate with commas or new lines)" class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+        </div>
+
+        <button id="generateBtn" class="btn-primary w-full">
+            <i class="fas fa-magic mr-2"></i>Generate SEO Details
+        </button>
+
+        <div id="outputContainer" class="mt-10 hidden">
+            <!-- Generated Title -->
+            <div class="output-section mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-heading mr-2 text-indigo-500"></i>Optimized Title</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedTitle')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="generatedTitle" class="output-content"></p>
+            </div>
+
+            <!-- Generated Description -->
+            <div class="output-section mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-align-left mr-2 text-indigo-500"></i>SEO Description</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedDescription')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="generatedDescription" class="output-content"></p>
+            </div>
+
+            <!-- Generated Tags -->
+            <div class="output-section mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-tags mr-2 text-indigo-500"></i>Relevant Tags</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedTagsRaw')">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div id="generatedTags" class="output-tags">
+                    <!-- Tags will be dynamically added here -->
+                </div>
+                <!-- Hidden element to hold raw tags for easy copying -->
+                <textarea id="generatedTagsRaw" class="hidden"></textarea>
+            </div>
+
+            <!-- Generated Hashtags -->
+            <div class="output-section mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-hashtag mr-2 text-indigo-500"></i>Relevant Hashtags</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedHashtagsRaw')">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div id="generatedHashtags" class="output-hashtags">
+                    <!-- Hashtags will be dynamically added here -->
+                </div>
+                <!-- Hidden element to hold raw hashtags for easy copying -->
+                <textarea id="generatedHashtagsRaw" class="hidden"></textarea>
+            </div>
+
+            <!-- Generated Long File Name -->
+            <div class="output-section mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-file-alt mr-2 text-indigo-500"></i>Suggested File Name</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedFileName')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="generatedFileName" class="output-content"></p>
+            </div>
+
+            <!-- Suggested Thumbnail Text -->
+            <div class="output-section">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-image mr-2 text-indigo-500"></i>Thumbnail Suggestion</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedThumbnail')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="generatedThumbnail" class="output-content"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p class="text-gray-700 text-lg mt-4">Generating awesome SEO details...</p>
+    </div>
+
+    <!-- Message Box for Copy Confirmation -->
+    <div id="messageBox" class="message-box"></div>
+
+    <script>
+        // Get references to DOM elements
+        const generateBtn = document.getElementById('generateBtn');
+        const videoTopicInput = document.getElementById('videoTopic'); // Renamed from videoTitle
+        const videoThemeSelect = document.getElementById('videoTheme'); // Changed to select
+        const targetAudienceSelect = document.getElementById('targetAudience'); // Changed to select
+        const videoContentTypeSelect = document.getElementById('videoContentType'); // Renamed from videoType
+        const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]'); // Radio buttons
+        const keyPointsInput = document.getElementById('keyPoints');
+
+        const outputContainer = document.getElementById('outputContainer');
+        const generatedTitleElem = document.getElementById('generatedTitle');
+        const generatedDescriptionElem = document.getElementById('generatedDescription');
+        const generatedTagsElem = document.getElementById('generatedTags');
+        const generatedTagsRawElem = document.getElementById('generatedTagsRaw');
+        const generatedHashtagsElem = document.getElementById('generatedHashtags'); // New
+        const generatedHashtagsRawElem = document.getElementById('generatedHashtagsRaw'); // New
+        const generatedFileNameElem = document.getElementById('generatedFileName'); // New
+        const generatedThumbnailElem = document.getElementById('generatedThumbnail');
+
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const messageBox = document.getElementById('messageBox');
+
+        // Function to show a temporary message
+        function showMessage(message) {
+            messageBox.textContent = message;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 2000); // Message disappears after 2 seconds
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            let textToCopy = '';
+
+            if (element.tagName === 'P' || element.tagName === 'TEXTAREA') {
+                textToCopy = element.textContent || element.value;
+            } else if (element.classList.contains('output-tags') || element.classList.contains('output-hashtags')) {
+                // For tags/hashtags containers, concatenate all child text
+                const items = Array.from(element.children).map(itemNode => itemNode.textContent.trim());
+                textToCopy = items.join(', ');
+            }
+
+            if (textToCopy) {
+                // Create a temporary textarea element to copy text
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    showMessage('Copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    showMessage('Failed to copy. Please copy manually.');
+                } finally {
+                    document.body.removeChild(tempTextArea);
+                }
+            }
+        }
+
+        // Event listener for the Generate button
+        generateBtn.addEventListener('click', async () => {
+            const videoTopic = videoTopicInput.value.trim();
+            const videoTheme = videoThemeSelect.value;
+            const targetAudience = targetAudienceSelect.value;
+            const videoContentType = videoContentTypeSelect.value;
+            const keyPoints = keyPointsInput.value.trim();
+
+            // Get selected upload type
+            let uploadType = '';
+            for (const radio of uploadTypeRadios) {
+                if (radio.checked) {
+                    uploadType = radio.value;
+                    break;
+                }
+            }
+
+            // Basic validation
+            if (!videoTopic || !videoTheme || !targetAudience || !videoContentType || !uploadType) {
+                showMessage('Please fill in all required fields.');
+                return;
+            }
+
+            // Show loading overlay
+            loadingOverlay.classList.remove('hidden');
+            outputContainer.classList.add('hidden'); // Hide previous output
+
+            // Construct the prompt for the AI
+            const prompt = `Generate SEO-optimized YouTube video details (title, description, tags, hashtags, a long file name, and a thumbnail text suggestion) based on the following information:
+            - Video Topic/Main Idea: "${videoTopic}"
+            - Video Theme/Style: "${videoTheme}"
+            - Target Audience: "${targetAudience}"
+            - Video Content Type: "${videoContentType}"
+            - Upload Type: "${uploadType}"
+            ${keyPoints ? `- Key Points/Content Highlights: "${keyPoints}"` : ''}
+
+            The title should be catchy and include relevant keywords.
+            The description should be detailed, include keywords naturally, and encourage engagement.
+            The tags should be a comma-separated list of highly relevant keywords.
+            The hashtags should be a comma-separated list of relevant hashtags, starting with '#'.
+            The long file name should be descriptive and keyword-rich, suitable for SEO.
+            The thumbnail text suggestion should be a short, impactful phrase for a video thumbnail.
+
+            Provide the output as a JSON object with the following structure:
+            {
+                "title": "Generated Title",
+                "description": "Generated Description",
+                "tags": ["tag1", "tag2", "tag3"],
+                "hashtags": ["#hashtag1", "#hashtag2"],
+                "long_file_name": "your_video_topic_keywords_full_hd.mp4",
+                "thumbnail_suggestion": "Thumbnail Text"
+            }`;
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                // Define the expected JSON schema for the response
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "title": { "type": "STRING" },
+                                "description": { "type": "STRING" },
+                                "tags": {
+                                    "type": "ARRAY",
+                                    "items": { "type": "STRING" }
+                                },
+                                "hashtags": { // New property
+                                    "type": "ARRAY",
+                                    "items": { "type": "STRING" }
+                                },
+                                "long_file_name": { "type": "STRING" }, // New property
+                                "thumbnail_suggestion": { "type": "STRING" }
+                            },
+                            "propertyOrdering": ["title", "description", "tags", "hashtags", "long_file_name", "thumbnail_suggestion"]
+                        }
+                    }
+                };
+
+                const apiKey = ""; // Canvas will provide this in runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const jsonString = result.candidates[0].content.parts[0].text;
+                    const seoDetails = JSON.parse(jsonString);
+
+                    // Populate the output fields
+                    generatedTitleElem.textContent = seoDetails.title || 'N/A';
+                    generatedDescriptionElem.textContent = seoDetails.description || 'N/A';
+                    generatedThumbnailElem.textContent = seoDetails.thumbnail_suggestion || 'N/A';
+                    generatedFileNameElem.textContent = seoDetails.long_file_name || 'N/A'; // Populate new file name
+
+                    // Clear previous tags and add new ones
+                    generatedTagsElem.innerHTML = '';
+                    if (seoDetails.tags && Array.isArray(seoDetails.tags)) {
+                        seoDetails.tags.forEach(tag => {
+                            const tagSpan = document.createElement('span');
+                            tagSpan.classList.add('output-tag-item');
+                            tagSpan.textContent = tag.trim();
+                            generatedTagsElem.appendChild(tagSpan);
+                        });
+                        generatedTagsRawElem.value = seoDetails.tags.join(', '); // For raw copy
+                    } else {
+                        generatedTagsElem.textContent = 'N/A';
+                        generatedTagsRawElem.value = '';
+                    }
+
+                    // Clear previous hashtags and add new ones
+                    generatedHashtagsElem.innerHTML = '';
+                    if (seoDetails.hashtags && Array.isArray(seoDetails.hashtags)) {
+                        seoDetails.hashtags.forEach(hashtag => {
+                            const hashtagSpan = document.createElement('span');
+                            hashtagSpan.classList.add('output-tag-item'); // Reusing tag item style
+                            hashtagSpan.textContent = hashtag.trim();
+                            generatedHashtagsElem.appendChild(hashtagSpan);
+                        });
+                        generatedHashtagsRawElem.value = seoDetails.hashtags.join(', '); // For raw copy
+                    } else {
+                        generatedHashtagsElem.textContent = 'N/A';
+                        generatedHashtagsRawElem.value = '';
+                    }
+
+                    outputContainer.classList.remove('hidden'); // Show output section
+
+                } else {
+                    showMessage('Failed to generate SEO details. Please try again.');
+                    console.error('Unexpected API response structure:', result);
+                }
+
+            } catch (error) {
+                showMessage('An error occurred during generation. Please check your input and try again.');
+                console.error('Error calling Gemini API:', error);
+            } finally {
+                // Hide loading overlay
+                loadingOverlay.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
