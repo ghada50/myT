@@ -1,180 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>YouTube SEO Tool - Blogger Friendly</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; background: #fff; color: #374151; }
-    .tool-container { max-width: 680px; margin: 40px auto; }
-  </style>
+    <meta charset="UTF-8">
+    <title>YouTube Video Details Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 550px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        button {
+            padding: 10px 18px;
+            background: #4F8EF7;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .results {
+            margin-top: 25px;
+            background: #f1f5fd;
+            padding: 18px;
+            border-radius: 5px;
+        }
+        .results h3 {
+            margin-top: 0;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+        .tag-list span {
+            background: #e3e9f6;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+    </style>
 </head>
 <body>
-  <div class="tool-container shadow-xl rounded-xl p-8 bg-white">
-    <h1 class="text-2xl font-bold text-red-600 mb-2 flex items-center">
-      <svg class="w-8 h-8 mr-2" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#ff0000"/><polygon fill="#fff" points="20,16 34,24 20,32"/></svg>
-      YouTube SEO Optimizer
-    </h1>
-    <p class="mb-6 text-gray-600">Generate catchy titles, SEO descriptions, hashtags, and tags for your YouTube video!</p>
-    
-    <form id="seo-form" class="space-y-5">
-      <div>
-        <label class="block text-sm font-medium mb-1">Select Video Type</label>
-        <select id="video-type" class="w-full border rounded p-2">
-          <option value="regular">Regular Video</option>
-          <option value="live-stream">Live Stream</option>
-          <option value="youtube-shorts">YouTube Shorts</option>
-        </select>
-      </div>
-
-      <div>
-  <label class="block text-sm font-medium mb-1">Select Video Theme/Category</label>
-  <select id="video-theme" class="w-full border rounded p-2">
-    <option value="gameplay">Gameplay</option>
-    <option value="tutorial">Tutorial</option>
-    <option value="entertainment">Entertainment</option>
-    <option value="movies">Movies</option>
-    <option value="music">Music</option>
-    <option value="education">Education</option>
-    <option value="vlog">Vlog</option>
-    <option value="review">Review</option>
-    <option value="news">News</option>
-    <option value="other">Other</option>
-  </select>
-</div>
-      
-      <div>
-        <label class="block text-sm font-medium mb-1">Your Video Title (if any)</label>
-        <input id="current-title" type="text" class="w-full border rounded p-2" placeholder="Enter your current video title (optional)">
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1">Main Topic <span class="text-red-500">*</span></label>
-        <input id="main-topic" type="text" class="w-full border rounded p-2" required placeholder="e.g. How to cook pasta">
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1">Target Audience</label>
-        <input id="target-audience" type="text" class="w-full border rounded p-2" placeholder="e.g. Students, Foodies, General">
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1">Extra Notes / Keywords</label>
-        <input id="extra-notes" type="text" class="w-full border rounded p-2" placeholder="e.g. viral, trending, quick, easy">
-      </div>
-      <div>
-        <button type="button" id="generate-btn" class="w-full bg-red-600 text-white font-semibold rounded p-3 hover:bg-red-700 transition">
-          Generate SEO Content
-        </button>
-      </div>
-    </form>
-
-    <div id="results" class="mt-8 hidden">
-      <h2 class="text-lg font-bold text-blue-600 mb-3">AI-Powered SEO Suggestions</h2>
-      <div class="mb-3">
-        <label class="block text-sm font-medium mb-1">Title</label>
-        <input id="result-title" class="w-full border rounded p-2 bg-gray-100" readonly>
-      </div>
-      <div class="mb-3">
-        <label class="block text-sm font-medium mb-1">Description</label>
-        <textarea id="result-description" class="w-full border rounded p-2 bg-gray-100" rows="4" readonly></textarea>
-      </div>
-      <div class="mb-3">
-        <label class="block text-sm font-medium mb-1">Hashtags</label>
-        <input id="result-hashtags" class="w-full border rounded p-2 bg-gray-100" readonly>
-      </div>
-      <div class="mb-3">
-        <label class="block text-sm font-medium mb-1">Keyword Tags</label>
-        <input id="result-tags" class="w-full border rounded p-2 bg-gray-100" readonly>
-      </div>
-      <div>
-        <button onclick="copyResults()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Copy All</button>
-        <span id="copy-msg" class="ml-3 text-green-600 text-sm hidden">Copied!</span>
-      </div>
+    <div class="container">
+        <h2>YouTube Video Details Generator</h2>
+        <div class="form-group">
+            <label for="title">Video Title/Topic</label>
+            <input id="title" type="text" placeholder="e.g. Minecraft Survival Ep.1">
+        </div>
+        <div class="form-group">
+            <label for="audience">Target Audience</label>
+            <input id="audience" type="text" placeholder="e.g. Beginners, Gamers, Music Lovers, etc.">
+        </div>
+        <div class="form-group">
+            <label for="notes">Extra Notes (optional)</label>
+            <textarea id="notes" rows="2" placeholder="e.g. Focus on how to build a shelter, include tips, feature trending songs..."></textarea>
+        </div>
+        <div class="form-group">
+            <label for="video-theme">Select Video Theme/Category</label>
+            <select id="video-theme">
+                <option value="gameplay">Gameplay</option>
+                <option value="tutorial">Tutorial</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="movies">Movies</option>
+                <option value="music">Music</option>
+                <option value="education">Education</option>
+                <option value="vlog">Vlog</option>
+                <option value="review">Review</option>
+                <option value="news">News</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <button id="generate-btn">Generate Details</button>
+        <div id="results" class="results" style="display:none;">
+            <h3>Generated YouTube Details</h3>
+            <strong>Title:</strong>
+            <div id="gen-title"></div>
+            <strong>Description:</strong>
+            <div id="gen-desc" style="white-space:pre-line;"></div>
+            <strong>Tags:</strong>
+            <div id="gen-tags" class="tag-list"></div>
+        </div>
     </div>
-    <div id="error-msg" class="mt-4 text-red-600 font-semibold hidden"></div>
-  </div>
-  
-  <script>
-    // Simple fake AI - generates pseudo-content based on input
-    function fakeAI({title, topic, type, audience, notes}) {
-      // Simulate different video types
-      let typeDesc = {
-        "regular": "In-depth and informative",
-        "live-stream": "Exciting live event",
-        "youtube-shorts": "Quick, catchy, and viral"
-      }[type] || "Awesome";
+    <script>
+        function generateDetails({title, audience, notes, theme}) {
+            // Basic sanitization
+            title = title.trim();
+            audience = audience.trim();
+            notes = notes.trim();
 
-      // Fallbacks
-      if (!topic) topic = "Your Topic";
-      if (!audience) audience = "everyone";
+            // Default values if empty
+            if (!title) title = "Awesome Video";
+            if (!audience) audience = "Everyone";
 
-      // Generate content
-      let generatedTitle = (title && title.length > 5)
-        ? title
-        : `${typeDesc} guide: ${topic.charAt(0).toUpperCase() + topic.slice(1)}`;
-      let generatedDescription =
-        `Learn all about ${topic} in this ${typeDesc.toLowerCase()} video made for ${audience}.` +
-        (notes ? ` Featuring: ${notes}.` : "") +
-        ` Subscribe for more tips and tricks!`;
-      let tagsArr = topic.split(" ").concat((notes || "").split(",")).map(t => t.trim()).filter(Boolean);
-      tagsArr = Array.from(new Set(tagsArr.concat(["YouTube", "Tutorial", type.replace("-", " ")]))); // unique
-      
-      let hashtags = tagsArr
-        .filter(t => t && t.length > 1)
-        .slice(0, 8)
-        .map(t => "#" + t.replace(/[^a-zA-Z0-9]/g, ""))
-        .join(" ");
+            // Theme-based logic
+            const themeData = {
+                gameplay: {
+                    title: `Let's Play: ${title} | Epic Gaming Moments`,
+                    desc: `Enjoy thrilling gameplay of ${title}! Join me as I explore, react, and conquer challenges. Perfect for gamers and fans of ${title}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "gameplay", "let's play", "walkthrough", "funny moments", "gaming", "reaction", audience]
+                },
+                tutorial: {
+                    title: `How To ${title} | Step-by-Step Tutorial`,
+                    desc: `This tutorial will guide you through ${title} with clear, easy-to-follow steps. Ideal for ${audience}. ${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "tutorial", "how to", "guide", "step by step", "tips", "for beginners", audience]
+                },
+                entertainment: {
+                    title: `${title} | Must Watch Entertainment!`,
+                    desc: `Sit back and enjoy "${title}" packed with laughs and fun for all! Great for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "entertainment", "funny", "viral", "must watch", audience]
+                },
+                movies: {
+                    title: `${title} | Movie Highlights & Reviews`,
+                    desc: `Explore the best of "${title}" - reviews, reactions, and more for movie lovers!${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "movies", "film review", "cinema", "movie reaction", audience]
+                },
+                music: {
+                    title: `${title} | Official Music Video & Lyrics`,
+                    desc: `Listen to "${title}" and enjoy the latest music trends. Perfect for music fans and ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "music", "lyrics", "song", "cover", "music video", audience]
+                },
+                education: {
+                    title: `${title} | Educational Video`,
+                    desc: `Learn about "${title}" in this engaging and informative video for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "education", "learning", "explained", "lesson", audience]
+                },
+                vlog: {
+                    title: `${title} | Daily Vlog`,
+                    desc: `Join my day as I share experiences on "${title}". Vlog for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "vlog", "daily life", "behind the scenes", audience]
+                },
+                review: {
+                    title: `${title} | Honest Review`,
+                    desc: `Here's my honest review and opinion on "${title}". Best for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "review", "unboxing", "first impressions", "opinion", audience]
+                },
+                news: {
+                    title: `${title} | Latest News & Updates`,
+                    desc: `Get the latest news and updates about "${title}". For ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "news", "breaking", "latest update", "headline", audience]
+                },
+                other: {
+                    title: `${title} | YouTube Video`,
+                    desc: `Discover "${title}" on this channel. For ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
+                    tags: [title, "youtube", "video", audience]
+                }
+            };
+            const selected = themeData[theme] || themeData.other;
 
-      let tagStr = tagsArr.filter(t => t && t.length > 1).slice(0, 12).join(", ");
+            // Use notes and audience for richer description
+            return {
+                title: selected.title,
+                desc: selected.desc,
+                tags: Array.from(new Set(selected.tags.filter(Boolean))).slice(0, 15) // up to 15 tags
+            };
+        }
 
-      return {
-        title: generatedTitle,
-        description: generatedDescription,
-        hashtags: hashtags,
-        tags: tagStr
-      };
-    }
+        document.getElementById('generate-btn').onclick = function () {
+            const title = document.getElementById('title').value;
+            const audience = document.getElementById('audience').value;
+            const notes = document.getElementById('notes').value;
+            const theme = document.getElementById('video-theme').value;
 
-    document.getElementById('generate-btn').onclick = function() {
-      // Get form data
-      let type = document.getElementById('video-type').value;
-      let title = document.getElementById('current-title').value.trim();
-      let topic = document.getElementById('main-topic').value.trim();
-      let audience = document.getElementById('target-audience').value.trim();
-      let notes = document.getElementById('extra-notes').value.trim();
-      let errorMsg = document.getElementById('error-msg');
-      let results = document.getElementById('results');
+            const result = generateDetails({title, audience, notes, theme});
 
-      if (!topic) {
-        errorMsg.textContent = "Please enter the main topic of your video.";
-        errorMsg.classList.remove('hidden');
-        results.classList.add('hidden');
-        return;
-      }
-      errorMsg.classList.add('hidden');
-
-      // Generate content
-      let generated = fakeAI({title, topic, type, audience, notes});
-      document.getElementById('result-title').value = generated.title;
-      document.getElementById('result-description').value = generated.description;
-      document.getElementById('result-hashtags').value = generated.hashtags;
-      document.getElementById('result-tags').value = generated.tags;
-      results.classList.remove('hidden');
-      document.getElementById('copy-msg').classList.add('hidden');
-    };
-
-    function copyResults() {
-      let text =
-        "Title: " + document.getElementById('result-title').value + "\n\n" +
-        "Description: " + document.getElementById('result-description').value + "\n\n" +
-        "Hashtags: " + document.getElementById('result-hashtags').value + "\n\n" +
-        "Tags: " + document.getElementById('result-tags').value;
-      navigator.clipboard.writeText(text);
-      document.getElementById('copy-msg').classList.remove('hidden');
-      setTimeout(() => {
-        document.getElementById('copy-msg').classList.add('hidden');
-      }, 2000);
-    }
-  </script>
+            // Display results
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('gen-title').innerText = result.title;
+            document.getElementById('gen-desc').innerText = result.desc;
+            document.getElementById('gen-tags').innerHTML = result.tags.map(tag => `<span>${tag}</span>`).join('');
+        };
+    </script>
 </body>
 </html>
