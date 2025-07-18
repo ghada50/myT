@@ -1,203 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>YouTube Video Details Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 550px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            padding: 30px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 9px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-        button {
-            padding: 10px 18px;
-            background: #4F8EF7;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 1em;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .results {
-            margin-top: 25px;
-            background: #f1f5fd;
-            padding: 18px;
-            border-radius: 5px;
-        }
-        .results h3 {
-            margin-top: 0;
-        }
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-        }
-        .tag-list span {
-            background: #e3e9f6;
-            padding: 5px 12px;
-            border-radius: 3px;
-            font-size: 0.95em;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Advanced AI-powered YouTube Video SEO Tool for ranking, tags, descriptions, titles, and audience targeting.">
+  <meta name="keywords" content="YouTube, SEO, Video Ranking, Tags, Description, Title, Audience, AI, Generator, Tool">
+  <meta name="author" content="AI SEO Tool">
+  <title>YouTube AI Video SEO & Ranking Generator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: linear-gradient(120deg, #232526 0%, #414345 100%);
+      color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1a1d21;
+      padding: 30px 0 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    header h1 {
+      color: #ffe082;
+      margin: 0 0 10px;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      color: #bdbdbd;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #232526;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+      padding: 36px 32px 32px 32px;
+    }
+    form label {
+      display: block;
+      margin-top: 22px;
+      margin-bottom: 7px;
+      font-weight: 700;
+      color: #ffe082;
+      letter-spacing: 0.5px;
+    }
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 7px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      margin-bottom: 7px;
+      background: #31363b;
+      color: #fffde7;
+      transition: border 0.2s;
+    }
+    form input:focus, form textarea:focus, form select:focus {
+      border: 2px solid #ffe082;
+    }
+    .btn {
+      background: linear-gradient(90deg, #ffe082 0%, #f57c00 80%);
+      color: #222;
+      border: none;
+      padding: 15px 38px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-radius: 9px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(245,124,0,0.08);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #ffd54f 0%, #ff9800 100%);
+      transform: translateY(-2px) scale(1.02);
+    }
+    .result-section {
+      margin-top: 42px;
+      padding: 30px 20px;
+      background: #202328;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(33,33,33,0.09);
+      display: none;
+    }
+    .result-section h2 {
+      color: #ffc107;
+      margin-bottom: 16px;
+      font-size: 1.4rem;
+    }
+    .result-block {
+      margin-bottom: 18px;
+      position: relative;
+      background: #292c31;
+      border-radius: 7px;
+      padding: 18px 18px 18px 23px;
+      border-left: 6px solid #ffe082;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      color: #ffe082;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.12rem;
+      transition: color 0.2s;
+    }
+    .copy-btn:hover {
+      color: #f57c00;
+    }
+    .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 0.5em;
+    }
+    .tag {
+      background: #393e46;
+      color: #ffe082;
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 0.97rem;
+      margin-bottom: 4px;
+    }
+    .icon {
+      margin-right: 8px;
+      color: #ffe082;
+      font-size: 1.1em;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 18px 7px; }
+      .result-section { padding: 14px 5px; }
+      form input, form textarea, form select { font-size: 0.98rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>YouTube Video Details Generator</h2>
-        <div class="form-group">
-            <label for="title">Video Title/Topic</label>
-            <input id="title" type="text" placeholder="e.g. Minecraft Survival Ep.1">
-        </div>
-        <div class="form-group">
-            <label for="audience">Target Audience</label>
-            <input id="audience" type="text" placeholder="e.g. Beginners, Gamers, Music Lovers, etc.">
-        </div>
-        <div class="form-group">
-            <label for="notes">Extra Notes (optional)</label>
-            <textarea id="notes" rows="2" placeholder="e.g. Focus on how to build a shelter, include tips, feature trending songs..."></textarea>
-        </div>
-        <div class="form-group">
-            <label for="video-theme">Select Video Theme/Category</label>
-            <select id="video-theme">
-                <option value="gameplay">Gameplay</option>
-                <option value="tutorial">Tutorial</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="movies">Movies</option>
-                <option value="music">Music</option>
-                <option value="education">Education</option>
-                <option value="vlog">Vlog</option>
-                <option value="review">Review</option>
-                <option value="news">News</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <button id="generate-btn">Generate Details</button>
-        <div id="results" class="results" style="display:none;">
-            <h3>Generated YouTube Details</h3>
-            <strong>Title:</strong>
-            <div id="gen-title"></div>
-            <strong>Description:</strong>
-            <div id="gen-desc" style="white-space:pre-line;"></div>
-            <strong>Tags:</strong>
-            <div id="gen-tags" class="tag-list"></div>
-        </div>
-    </div>
-    <script>
-        function generateDetails({title, audience, notes, theme}) {
-            // Basic sanitization
-            title = title.trim();
-            audience = audience.trim();
-            notes = notes.trim();
+  <header>
+    <h1><i class="fab fa-youtube"></i> AI YouTube SEO & Video Ranking Generator</h1>
+    <p>Generate perfect titles, tags, descriptions, and audience targeting for any video style/theme using AI!</p>
+  </header>
 
-            // Default values if empty
-            if (!title) title = "Awesome Video";
-            if (!audience) audience = "Everyone";
+  <div class="container">
+    <form id="seoForm" autocomplete="off">
+      <label for="videoTheme"><i class="fas fa-palette icon"></i>Video Theme or Genre</label>
+      <input type="text" id="videoTheme" name="videoTheme" placeholder="e.g. Gaming, Tutorials, Vlogs, Reviews" required>
 
-            // Theme-based logic
-            const themeData = {
-                gameplay: {
-                    title: `Let's Play: ${title} | Epic Gaming Moments`,
-                    desc: `Enjoy thrilling gameplay of ${title}! Join me as I explore, react, and conquer challenges. Perfect for gamers and fans of ${title}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "gameplay", "let's play", "walkthrough", "funny moments", "gaming", "reaction", audience]
-                },
-                tutorial: {
-                    title: `How To ${title} | Step-by-Step Tutorial`,
-                    desc: `This tutorial will guide you through ${title} with clear, easy-to-follow steps. Ideal for ${audience}. ${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "tutorial", "how to", "guide", "step by step", "tips", "for beginners", audience]
-                },
-                entertainment: {
-                    title: `${title} | Must Watch Entertainment!`,
-                    desc: `Sit back and enjoy "${title}" packed with laughs and fun for all! Great for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "entertainment", "funny", "viral", "must watch", audience]
-                },
-                movies: {
-                    title: `${title} | Movie Highlights & Reviews`,
-                    desc: `Explore the best of "${title}" - reviews, reactions, and more for movie lovers!${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "movies", "film review", "cinema", "movie reaction", audience]
-                },
-                music: {
-                    title: `${title} | Official Music Video & Lyrics`,
-                    desc: `Listen to "${title}" and enjoy the latest music trends. Perfect for music fans and ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "music", "lyrics", "song", "cover", "music video", audience]
-                },
-                education: {
-                    title: `${title} | Educational Video`,
-                    desc: `Learn about "${title}" in this engaging and informative video for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "education", "learning", "explained", "lesson", audience]
-                },
-                vlog: {
-                    title: `${title} | Daily Vlog`,
-                    desc: `Join my day as I share experiences on "${title}". Vlog for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "vlog", "daily life", "behind the scenes", audience]
-                },
-                review: {
-                    title: `${title} | Honest Review`,
-                    desc: `Here's my honest review and opinion on "${title}". Best for ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "review", "unboxing", "first impressions", "opinion", audience]
-                },
-                news: {
-                    title: `${title} | Latest News & Updates`,
-                    desc: `Get the latest news and updates about "${title}". For ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "news", "breaking", "latest update", "headline", audience]
-                },
-                other: {
-                    title: `${title} | YouTube Video`,
-                    desc: `Discover "${title}" on this channel. For ${audience}.${notes ? '\n\nNotes: ' + notes : ''}`,
-                    tags: [title, "youtube", "video", audience]
-                }
-            };
-            const selected = themeData[theme] || themeData.other;
+      <label for="videoStyle"><i class="fas fa-video icon"></i>Video Style</label>
+      <input type="text" id="videoStyle" name="videoStyle" placeholder="e.g. Cinematic, Educational, Entertaining" required>
 
-            // Use notes and audience for richer description
-            return {
-                title: selected.title,
-                desc: selected.desc,
-                tags: Array.from(new Set(selected.tags.filter(Boolean))).slice(0, 15) // up to 15 tags
-            };
+      <label for="targetAudience"><i class="fas fa-users icon"></i>Target Audience</label>
+      <input type="text" id="targetAudience" name="targetAudience" placeholder="e.g. Teenagers, Tech Enthusiasts, Parents" required>
+
+      <label for="keywords"><i class="fas fa-search icon"></i>Focus Keywords (comma separated)</label>
+      <input type="text" id="keywords" name="keywords" placeholder="e.g. productivity, study tips, motivation" required>
+
+      <label for="tone"><i class="fas fa-microphone icon"></i>Preferred Tone</label>
+      <select id="tone" name="tone">
+        <option value="Informative">Informative</option>
+        <option value="Entertaining">Entertaining</option>
+        <option value="Motivational">Motivational</option>
+        <option value="Professional">Professional</option>
+        <option value="Casual">Casual</option>
+      </select>
+
+      <button type="submit" class="btn"><i class="fas fa-magic"></i> Generate SEO Details</button>
+    </form>
+
+    <section class="result-section" id="resultSection">
+      <h2><i class="fas fa-bolt"></i> AI-Generated Video SEO Details</h2>
+      <div class="result-block" id="titleBlock">
+        <b><i class="fas fa-heading"></i> Title:</b>
+        <span id="videoTitle"></span>
+        <button class="copy-btn" data-copy="videoTitle" title="Copy Title"><i class="fas fa-copy"></i></button>
+      </div>
+      <div class="result-block" id="descBlock">
+        <b><i class="fas fa-align-left"></i> Description:</b>
+        <span id="videoDescription"></span>
+        <button class="copy-btn" data-copy="videoDescription" title="Copy Description"><i class="fas fa-copy"></i></button>
+      </div>
+      <div class="result-block" id="tagsBlock">
+        <b><i class="fas fa-tags"></i> Tags:</b>
+        <div id="videoTags" class="tags-list"></div>
+        <button class="copy-btn" data-copy="videoTags" title="Copy Tags"><i class="fas fa-copy"></i></button>
+      </div>
+      <div class="result-block" id="audienceBlock">
+        <b><i class="fas fa-bullseye"></i> Audience Targeting:</b>
+        <span id="audienceTarget"></span>
+        <button class="copy-btn" data-copy="audienceTarget" title="Copy Audience Targeting"><i class="fas fa-copy"></i></button>
+      </div>
+      <div class="result-block" id="jsonBlock">
+        <b><i class="fas fa-code"></i> JSON Export:</b>
+        <pre id="jsonExport" style="white-space: pre-wrap;word-break: break-word;"></pre>
+        <button class="copy-btn" data-copy="jsonExport" title="Copy JSON"><i class="fas fa-copy"></i></button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Example AI generation functions - replace with real AI API integration for production!
+    function generateTitle(theme, style, audience, keywords, tone) {
+      return `${theme} ${style} for ${audience}: ${capitalizeFirst(keywords.split(',')[0].trim())} Tips & Insights! [${tone}]`;
+    }
+    function generateDescription(theme, style, audience, keywords, tone) {
+      return `Unlock the secrets of ${theme} in this ${style.toLowerCase()} video, crafted for ${audience}. Discover top tips about ${keywords.split(',').map(k=>k.trim()).join(', ')}. Whether you're new or experienced, this video will boost your knowledge and keep you engaged. Don't forget to like, subscribe, and share for more ${theme} content!`;
+    }
+    function generateTags(theme, style, audience, keywords) {
+      const extraTags = [theme, style, audience, ...keywords.split(',').map(k=>k.trim())];
+      return Array.from(new Set(extraTags.map(t=>toTag(t))));
+    }
+    function toTag(str) {
+      return str.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    }
+    function capitalizeFirst(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    function generateAudienceTargeting(audience, theme) {
+      return `Targeted for ${audience} interested in ${theme}.`;
+    }
+
+    document.getElementById('seoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // get fields
+      const theme = document.getElementById('videoTheme').value.trim();
+      const style = document.getElementById('videoStyle').value.trim();
+      const audience = document.getElementById('targetAudience').value.trim();
+      const keywords = document.getElementById('keywords').value.trim();
+      const tone = document.getElementById('tone').value;
+
+      // AI generation (mock)
+      const title = generateTitle(theme, style, audience, keywords, tone);
+      const description = generateDescription(theme, style, audience, keywords, tone);
+      const tags = generateTags(theme, style, audience, keywords);
+      const audienceTarget = generateAudienceTargeting(audience, theme);
+
+      // Display results
+      document.getElementById('videoTitle').innerText = title;
+      document.getElementById('videoDescription').innerText = description;
+      document.getElementById('videoTags').innerHTML = tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ');
+      document.getElementById('audienceTarget').innerText = audienceTarget;
+
+      // JSON Export
+      const jsonObj = {
+        title, description, tags, audienceTarget,
+        theme, style, keywords: keywords.split(',').map(k=>k.trim()), tone
+      };
+      document.getElementById('jsonExport').innerText = JSON.stringify(jsonObj, null, 2);
+
+      document.getElementById('resultSection').style.display = 'block';
+    });
+
+    // Copy functionality
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const targetId = btn.getAttribute('data-copy');
+        let text = '';
+        if(targetId === 'videoTags'){
+          text = Array.from(document.querySelectorAll('#videoTags .tag')).map(e=>e.textContent).join(', ');
+        }else{
+          text = document.getElementById(targetId).innerText;
         }
+        copyTextToClipboard(text);
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(()=>{btn.innerHTML='<i class="fas fa-copy"></i>';}, 1250);
+      });
+    });
 
-        document.getElementById('generate-btn').onclick = function () {
-            const title = document.getElementById('title').value;
-            const audience = document.getElementById('audience').value;
-            const notes = document.getElementById('notes').value;
-            const theme = document.getElementById('video-theme').value;
-
-            const result = generateDetails({title, audience, notes, theme});
-
-            // Display results
-            document.getElementById('results').style.display = 'block';
-            document.getElementById('gen-title').innerText = result.title;
-            document.getElementById('gen-desc').innerText = result.desc;
-            document.getElementById('gen-tags').innerHTML = result.tags.map(tag => `<span>${tag}</span>`).join('');
-        };
-    </script>
+    function copyTextToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+      } else {
+        // fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+    }
+  </script>
 </body>
 </html>
