@@ -272,9 +272,7 @@
                 <label>
                     <input type="radio" name="uploadType" value="short"> YouTube Short
                 </label>
-                <label>
-                    <input type="radio" name="uploadType" value="live" id="liveStreamRadio"> Live Stream
-                </label>
+                <!-- Removed Live Stream radio button -->
             </div>
         </div>
 
@@ -289,11 +287,7 @@
             <p class="text-sm text-gray-500 mt-1">Leave empty for AI to suggest based on topic.</p>
         </div>
 
-        <div class="input-group mb-8" id="liveStreamSpecificsInput" style="display: none;">
-            <label for="liveStreamDetails">Live Stream Specifics (Guests, Agenda, Interactivity):</label>
-            <textarea id="liveStreamDetails" rows="3" placeholder="e.g., Q&A with special guest John Doe, playing new horror game, audience polls." class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-            <p class="text-sm text-gray-500 mt-1">Details to help optimize your live stream.</p>
-        </div>
+        <!-- Removed Live Stream Specifics input -->
 
         <button id="generateBtn" class="btn-primary w-full">
             <i class="fas fa-magic mr-2"></i>Generate Advanced SEO Details
@@ -388,63 +382,8 @@
                 <textarea id="generatedTrendingKeywordsRaw" class="hidden"></textarea>
             </div>
 
-            <!-- Live Stream Pre-Live Details (Conditional) -->
-            <div class="output-section mb-6" id="livePreLiveOutput" style="display: none;">
-                <h3><i class="fas fa-broadcast-tower mr-2 text-indigo-500"></i>Live Stream (Pre-Live)</h3>
-                <div class="flex justify-between items-center mb-2">
-                    <h4>Title:</h4>
-                    <button class="btn-copy" onclick="copyToClipboard('livePreLiveTitle')">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-                <p id="livePreLiveTitle" class="output-content mb-3"></p>
-
-                <div class="flex justify-between items-center mb-2">
-                    <h4>Description:</h4>
-                    <button class="btn-copy" onclick="copyToClipboard('livePreLiveDescription')">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-                <p id="livePreLiveDescription" class="output-content mb-3"></p>
-
-                <div class="flex justify-between items-center mb-2">
-                    <h4>Tags:</h4>
-                    <button class="btn-copy" onclick="copyToClipboard('livePreLiveTagsRaw')">
-                        <i class="fas fa-copy"></i> Copy All
-                    </button>
-                </div>
-                <div id="livePreLiveTags" class="output-tags"></div>
-                <textarea id="livePreLiveTagsRaw" class="hidden"></textarea>
-            </div>
-
-            <!-- Live Stream Post-Live Details (Conditional) -->
-            <div class="output-section mb-6" id="livePostLiveOutput" style="display: none;">
-                <h3><i class="fas fa-video mr-2 text-indigo-500"></i>Live Stream (Post-Live VOD)</h3>
-                <div class="flex justify-between items-center mb-2">
-                    <h4>Title:</h4>
-                    <button class="btn-copy" onclick="copyToClipboard('livePostLiveTitle')">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-                <p id="livePostLiveTitle" class="output-content mb-3"></p>
-
-                <div class="flex justify-between items-center mb-2">
-                    <h4>Description:</h4>
-                    <button class="btn-copy" onclick="copyToClipboard('livePostLiveDescription')">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-                <p id="livePostLiveDescription" class="output-content mb-3"></p>
-
-                <div class="flex justify-between items-center mb-2">
-                    <h4>Tags:</h4>
-                    <button class="btn-copy" onclick="copyToClipboard('livePostLiveTagsRaw')">
-                        <i class="fas fa-copy"></i> Copy All
-                    </button>
-                </div>
-                <div id="livePostLiveTags" class="output-tags"></div>
-                <textarea id="livePostLiveTagsRaw" class="hidden"></textarea>
-            </div>
+            <!-- Removed Live Stream Pre-Live Details -->
+            <!-- Removed Live Stream Post-Live Details -->
 
             <!-- Engagement & CTA Suggestions -->
             <div class="output-section">
@@ -485,8 +424,7 @@
         const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]');
         const keyPointsInput = document.getElementById('keyPoints');
         const trendingKeywordsInput = document.getElementById('trendingKeywords');
-        const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput');
-        const liveStreamDetailsInput = document.getElementById('liveStreamDetails');
+        // Removed liveStreamSpecificsInput and liveStreamDetailsInput
 
         const outputContainer = document.getElementById('outputContainer');
         const generatedTitleElem = document.getElementById('generatedTitle');
@@ -499,16 +437,8 @@
         const generatedThumbnailElem = document.getElementById('generatedThumbnail');
         const generatedTrendingKeywordsElem = document.getElementById('generatedTrendingKeywords');
         const generatedTrendingKeywordsRawElem = document.getElementById('generatedTrendingKeywordsRaw');
-        const livePreLiveOutput = document.getElementById('livePreLiveOutput');
-        const livePreLiveTitle = document.getElementById('livePreLiveTitle');
-        const livePreLiveDescription = document.getElementById('livePreLiveDescription');
-        const livePreLiveTags = document.getElementById('livePreLiveTags');
-        const livePreLiveTagsRaw = document.getElementById('livePreLiveTagsRaw');
-        const livePostLiveOutput = document.getElementById('livePostLiveOutput');
-        const livePostLiveTitle = document.getElementById('livePostLiveTitle');
-        const livePostLiveDescription = document.getElementById('livePostLiveDescription');
-        const livePostLiveTags = document.getElementById('livePostLiveTags');
-        const livePostLiveTagsRaw = document.getElementById('livePostLiveTagsRaw');
+        // Removed livePreLiveOutput, livePreLiveTitle, livePreLiveDescription, livePreLiveTags, livePreLiveTagsRaw
+        // Removed livePostLiveOutput, livePostLiveTitle, livePostLiveDescription, livePostLiveTags, livePostLiveTagsRaw
         const generatedEngagementElem = document.getElementById('generatedEngagement');
         const generatedEngagementRawElem = document.getElementById('generatedEngagementRaw');
 
@@ -555,16 +485,16 @@
             }
         }
 
-        // Event listener for upload type radio buttons to show/hide live stream specifics
-        uploadTypeRadios.forEach(radio => {
-            radio.addEventListener('change', () => {
-                if (radio.value === 'live') {
-                    liveStreamSpecificsInput.style.display = 'block';
-                } else {
-                    liveStreamSpecificsInput.style.display = 'none';
-                }
-            });
-        });
+        // Removed event listener for upload type radio buttons since Live Stream is removed
+        // uploadTypeRadios.forEach(radio => {
+        //     radio.addEventListener('change', () => {
+        //         if (radio.value === 'live') {
+        //             liveStreamSpecificsInput.style.display = 'block';
+        //         } else {
+        //             liveStreamSpecificsInput.style.display = 'none';
+        //         }
+        //     });
+        // });
 
         // Function to simulate fetching trending keywords (In a real app, this would be an an API call)
         async function fetchTrendingKeywords(topic) {
@@ -599,9 +529,9 @@
             const videoContentType = videoContentTypeSelect.value;
             const keyPoints = keyPointsInput.value.trim();
             const userTrendingKeywords = trendingKeywordsInput.value.trim();
-            const liveStreamDetails = liveStreamDetailsInput.value.trim();
+            // Removed liveStreamDetails
 
-            // Get selected upload type
+            // Get selected upload type (now only regular or short)
             let uploadType = '';
             for (const radio of uploadTypeRadios) {
                 if (radio.checked) {
@@ -646,26 +576,16 @@
             The thumbnail text suggestion should be a short, impactful phrase for a video thumbnail.
             Trending keyword suggestions should be a list of 5-7 additional highly relevant and currently searchable terms.
             Engagement prompts should be 2-3 short, actionable phrases for the description or live chat to boost interaction (e.g., "What's your favorite part?", "Drop a comment below!").
-            IMPORTANT: Ensure all string values in the JSON are properly escaped (e.g., double quotes like \\" and newlines like \\n).`; // Added strict escaping instruction
+            IMPORTANT: Ensure all string values in the JSON are properly escaped (e.g., double quotes like \\" and newlines like \\n).`;
 
 
-            // Add live stream specific requests if applicable
-            if (uploadType === 'live') {
-                prompt += `
-
-                For a Live Stream, also provide:
-                - **Pre-Live SEO:** A separate title, description, and tags optimized for attracting viewers *as the live stream starts* (e.g., using terms like "LIVE NOW", "Join us").
-                - **Post-Live SEO (VOD):** A separate title, description, and tags optimized for the recorded Video-on-Demand (VOD) version *after the stream ends* (focus on discoverability for evergreen content).
-                ${liveStreamDetails ? `- Live Stream Specific Details: "${liveStreamDetails}"` : ''}
-                `;
-            }
-
+            // Removed live stream specific requests from prompt
 
             try {
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                // Define the base response schema properties
+                // Define the response schema properties (no live stream specific properties)
                 let responseSchemaProperties = {
                     "title": { "type": "STRING" },
                     "description": { "type": "STRING" },
@@ -681,27 +601,6 @@
                     "title", "description", "tags", "hashtags", "long_file_name",
                     "thumbnail_suggestion", "trending_keywords", "engagement_prompts"
                 ];
-
-                // Conditionally add live stream specific properties to the schema
-                if (uploadType === 'live') {
-                    responseSchemaProperties["live_pre_live_seo"] = {
-                        "type": "OBJECT",
-                        "properties": {
-                            "title": { "type": "STRING" },
-                            "description": { "type": "STRING" },
-                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                        }
-                    };
-                    responseSchemaProperties["live_post_live_seo"] = {
-                        "type": "OBJECT",
-                        "properties": {
-                            "title": { "type": "STRING" },
-                            "description": { "type": "STRING" },
-                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                        }
-                    };
-                    propertyOrdering.push("live_pre_live_seo", "live_post_live_seo");
-                }
 
                 const payload = {
                     contents: chatHistory,
@@ -792,26 +691,10 @@
                     populateTagLike(generatedEngagementElem, generatedEngagementRawElem, seoDetails.engagement_prompts);
 
 
-                    // Handle Live Stream specific outputs
-                    if (uploadType === 'live') {
-                        // Ensure these properties exist in the API response before trying to access them
-                        const preLive = seoDetails.live_pre_live_seo || {};
-                        const postLive = seoDetails.live_post_live_seo || {};
+                    // Removed live stream specific outputs
+                    livePreLiveOutput.style.display = 'none';
+                    livePostLiveOutput.style.display = 'none';
 
-                        livePreLiveOutput.style.display = 'block';
-                        livePostLiveOutput.style.display = 'block';
-
-                        livePreLiveTitle.textContent = preLive.title || 'N/A';
-                        livePreLiveDescription.textContent = preLive.description || 'N/A';
-                        populateTagLike(livePreLiveTags, livePreLiveTagsRaw, preLive.tags);
-
-                        livePostLiveTitle.textContent = postLive.title || 'N/A';
-                        livePostLiveDescription.textContent = postLive.description || 'N/A';
-                        populateTagLike(livePostLiveTags, livePostLiveTagsRaw, postLive.tags);
-                    } else {
-                        livePreLiveOutput.style.display = 'none';
-                        livePostLiveOutput.style.display = 'none';
-                    }
 
                     outputContainer.classList.remove('hidden'); // Show output section
 
