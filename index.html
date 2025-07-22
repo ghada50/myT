@@ -565,7 +565,7 @@
             });
         });
 
-        // Function to simulate fetching trending keywords (In a real app, this would be an API call)
+        // Function to simulate fetching trending keywords (In a real app, this would be an an API call)
         async function fetchTrendingKeywords(topic) {
             // This is a placeholder. In a real application, you would make an API call
             // to a service like Google Trends or a custom backend that scrapes/provides trending data.
@@ -717,19 +717,32 @@
 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
+                console.log('Sending API request to:', apiUrl);
+                console.log('Payload:', JSON.stringify(payload, null, 2));
+
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
+                console.log('API Response Status:', response.status);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API Response Error:', errorText);
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
+
                 const result = await response.json();
+                console.log('API Response JSON:', result);
 
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const jsonString = result.candidates[0].content.parts[0].text;
+                    console.log('Raw JSON string from API:', jsonString);
                     const seoDetails = JSON.parse(jsonString);
+                    console.log('Parsed SEO Details:', seoDetails);
 
                     // Populate the output fields
                     generatedTitleElem.textContent = seoDetails.title || 'N/A';
@@ -781,12 +794,12 @@
 
                 } else {
                     showMessage('Failed to generate SEO details. Please try again.');
-                    console.error('Unexpected API response structure:', result);
+                    console.error('Unexpected API response structure or missing content:', result);
                 }
 
             } catch (error) {
-                showMessage('An error occurred during generation. Please check your input and try again.');
-                console.error('Error calling Gemini API:', error);
+                showMessage('An error occurred during generation. Please check your input and the browser console for details.');
+                console.error('Error during API call or JSON parsing:', error);
             } finally {
                 // Hide loading overlay
                 loadingOverlay.classList.add('hidden');
