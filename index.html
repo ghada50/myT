@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube SEO Generator</title>
+    <title>Advanced YouTube SEO Generator</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
@@ -104,7 +104,7 @@
             line-height: 1.6;
             padding-right: 40px; /* Space for copy button */
         }
-        .output-tags, .output-hashtags {
+        .output-tags, .output-hashtags, .output-engagement {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
@@ -178,14 +178,14 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
     <div class="container">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
-            <i class="fab fa-youtube text-red-500 mr-3"></i>YouTube SEO Generator
+            <i class="fab fa-youtube text-red-500 mr-3"></i>Advanced YouTube SEO Generator
         </h1>
         <p class="text-center text-gray-600 mb-10 leading-relaxed">
-            Effortlessly generate SEO-optimized titles, descriptions, and tags for your YouTube videos.
-            Just provide your video details, and let AI do the heavy lifting!
+            Effortlessly generate SEO-optimized titles, descriptions, and tags for your YouTube videos,
+            now with enhanced features for trending topics and live streams!
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -216,6 +216,7 @@
                     <option value="challenge">Challenge</option>
                     <option value="unboxing">Unboxing</option>
                     <option value="qna">Q&A</option>
+                    <option value="music">Music Video</option>
                     <option value="other">Other</option>
                 </select>
             </div>
@@ -272,7 +273,7 @@
                     <input type="radio" name="uploadType" value="short"> YouTube Short
                 </label>
                 <label>
-                    <input type="radio" name="uploadType" value="live"> Live Stream
+                    <input type="radio" name="uploadType" value="live" id="liveStreamRadio"> Live Stream
                 </label>
             </div>
         </div>
@@ -282,8 +283,20 @@
             <textarea id="keyPoints" rows="3" placeholder="e.g., Covers basic editing, uses free software, shows export settings. (Separate with commas or new lines)" class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
         </div>
 
+        <div class="input-group mb-8">
+            <label for="trendingKeywords">Specific Trending Keywords (Optional):</label>
+            <input type="text" id="trendingKeywords" placeholder="e.g., Summer trends, AI tools 2024, New game release" class="focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-sm text-gray-500 mt-1">Leave empty for AI to suggest based on topic.</p>
+        </div>
+
+        <div class="input-group mb-8" id="liveStreamSpecificsInput" style="display: none;">
+            <label for="liveStreamDetails">Live Stream Specifics (Guests, Agenda, Interactivity):</label>
+            <textarea id="liveStreamDetails" rows="3" placeholder="e.g., Q&A with special guest John Doe, playing new horror game, audience polls." class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <p class="text-sm text-gray-500 mt-1">Details to help optimize your live stream.</p>
+        </div>
+
         <button id="generateBtn" class="btn-primary w-full">
-            <i class="fas fa-magic mr-2"></i>Generate SEO Details
+            <i class="fas fa-magic mr-2"></i>Generate Advanced SEO Details
         </button>
 
         <div id="outputContainer" class="mt-10 hidden">
@@ -351,7 +364,7 @@
             </div>
 
             <!-- Suggested Thumbnail Text -->
-            <div class="output-section">
+            <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
                     <h3><i class="fas fa-image mr-2 text-indigo-500"></i>Thumbnail Suggestion</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedThumbnail')">
@@ -359,6 +372,92 @@
                     </button>
                 </div>
                 <p id="generatedThumbnail" class="output-content"></p>
+            </div>
+
+            <!-- Trending Keyword Suggestions -->
+            <div class="output-section mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-chart-line mr-2 text-indigo-500"></i>Trending Keyword Suggestions</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedTrendingKeywordsRaw')">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div id="generatedTrendingKeywords" class="output-tags">
+                    <!-- Trending keywords will be dynamically added here -->
+                </div>
+                <textarea id="generatedTrendingKeywordsRaw" class="hidden"></textarea>
+            </div>
+
+            <!-- Live Stream Pre-Live Details (Conditional) -->
+            <div class="output-section mb-6" id="livePreLiveOutput" style="display: none;">
+                <h3><i class="fas fa-broadcast-tower mr-2 text-indigo-500"></i>Live Stream (Pre-Live)</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <h4>Title:</h4>
+                    <button class="btn-copy" onclick="copyToClipboard('livePreLiveTitle')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="livePreLiveTitle" class="output-content mb-3"></p>
+
+                <div class="flex justify-between items-center mb-2">
+                    <h4>Description:</h4>
+                    <button class="btn-copy" onclick="copyToClipboard('livePreLiveDescription')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="livePreLiveDescription" class="output-content mb-3"></p>
+
+                <div class="flex justify-between items-center mb-2">
+                    <h4>Tags:</h4>
+                    <button class="btn-copy" onclick="copyToClipboard('livePreLiveTagsRaw')">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div id="livePreLiveTags" class="output-tags"></div>
+                <textarea id="livePreLiveTagsRaw" class="hidden"></textarea>
+            </div>
+
+            <!-- Live Stream Post-Live Details (Conditional) -->
+            <div class="output-section mb-6" id="livePostLiveOutput" style="display: none;">
+                <h3><i class="fas fa-video mr-2 text-indigo-500"></i>Live Stream (Post-Live VOD)</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <h4>Title:</h4>
+                    <button class="btn-copy" onclick="copyToClipboard('livePostLiveTitle')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="livePostLiveTitle" class="output-content mb-3"></p>
+
+                <div class="flex justify-between items-center mb-2">
+                    <h4>Description:</h4>
+                    <button class="btn-copy" onclick="copyToClipboard('livePostLiveDescription')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <p id="livePostLiveDescription" class="output-content mb-3"></p>
+
+                <div class="flex justify-between items-center mb-2">
+                    <h4>Tags:</h4>
+                    <button class="btn-copy" onclick="copyToClipboard('livePostLiveTagsRaw')">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div id="livePostLiveTags" class="output-tags"></div>
+                <textarea id="livePostLiveTagsRaw" class="hidden"></textarea>
+            </div>
+
+            <!-- Engagement & CTA Suggestions -->
+            <div class="output-section">
+                <div class="flex justify-between items-center mb-2">
+                    <h3><i class="fas fa-bullhorn mr-2 text-indigo-500"></i>Engagement & CTA Suggestions</h3>
+                    <button class="btn-copy" onclick="copyToClipboard('generatedEngagementRaw')">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div id="generatedEngagement" class="output-engagement">
+                    <!-- Engagement prompts will be dynamically added here -->
+                </div>
+                <textarea id="generatedEngagementRaw" class="hidden"></textarea>
             </div>
         </div>
     </div>
@@ -373,24 +472,45 @@
     <div id="messageBox" class="message-box"></div>
 
     <script>
+        // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API key.
+        // You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
+        const GEMINI_API_KEY = "AIzaSyCeNHYEpYPlLDBfnviPvedWjc1T1hep1io"; // Your new API key is placed here!
+
         // Get references to DOM elements
         const generateBtn = document.getElementById('generateBtn');
-        const videoTopicInput = document.getElementById('videoTopic'); // Renamed from videoTitle
-        const videoThemeSelect = document.getElementById('videoTheme'); // Changed to select
-        const targetAudienceSelect = document.getElementById('targetAudience'); // Changed to select
-        const videoContentTypeSelect = document.getElementById('videoContentType'); // Renamed from videoType
-        const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]'); // Radio buttons
+        const videoTopicInput = document.getElementById('videoTopic');
+        const videoThemeSelect = document.getElementById('videoTheme');
+        const targetAudienceSelect = document.getElementById('targetAudience');
+        const videoContentTypeSelect = document.getElementById('videoContentType');
+        const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]');
         const keyPointsInput = document.getElementById('keyPoints');
+        const trendingKeywordsInput = document.getElementById('trendingKeywords');
+        const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput');
+        const liveStreamDetailsInput = document.getElementById('liveStreamDetails');
 
         const outputContainer = document.getElementById('outputContainer');
         const generatedTitleElem = document.getElementById('generatedTitle');
         const generatedDescriptionElem = document.getElementById('generatedDescription');
         const generatedTagsElem = document.getElementById('generatedTags');
         const generatedTagsRawElem = document.getElementById('generatedTagsRaw');
-        const generatedHashtagsElem = document.getElementById('generatedHashtags'); // New
-        const generatedHashtagsRawElem = document.getElementById('generatedHashtagsRaw'); // New
-        const generatedFileNameElem = document.getElementById('generatedFileName'); // New
+        const generatedHashtagsElem = document.getElementById('generatedHashtags');
+        const generatedHashtagsRawElem = document.getElementById('generatedHashtagsRaw');
+        const generatedFileNameElem = document.getElementById('generatedFileName');
         const generatedThumbnailElem = document.getElementById('generatedThumbnail');
+        const generatedTrendingKeywordsElem = document.getElementById('generatedTrendingKeywords');
+        const generatedTrendingKeywordsRawElem = document.getElementById('generatedTrendingKeywordsRaw');
+        const livePreLiveOutput = document.getElementById('livePreLiveOutput');
+        const livePreLiveTitle = document.getElementById('livePreLiveTitle');
+        const livePreLiveDescription = document.getElementById('livePreLiveDescription');
+        const livePreLiveTags = document.getElementById('livePreLiveTags');
+        const livePreLiveTagsRaw = document.getElementById('livePreLiveTagsRaw');
+        const livePostLiveOutput = document.getElementById('livePostLiveOutput');
+        const livePostLiveTitle = document.getElementById('livePostLiveTitle');
+        const livePostLiveDescription = document.getElementById('livePostLiveDescription');
+        const livePostLiveTags = document.getElementById('livePostLiveTags');
+        const livePostLiveTagsRaw = document.getElementById('livePostLiveTagsRaw');
+        const generatedEngagementElem = document.getElementById('generatedEngagement');
+        const generatedEngagementRawElem = document.getElementById('generatedEngagementRaw');
 
         const loadingOverlay = document.getElementById('loadingOverlay');
         const messageBox = document.getElementById('messageBox');
@@ -411,8 +531,8 @@
 
             if (element.tagName === 'P' || element.tagName === 'TEXTAREA') {
                 textToCopy = element.textContent || element.value;
-            } else if (element.classList.contains('output-tags') || element.classList.contains('output-hashtags')) {
-                // For tags/hashtags containers, concatenate all child text
+            } else if (element.classList.contains('output-tags') || element.classList.contains('output-hashtags') || element.classList.contains('output-engagement')) {
+                // For tags/hashtags/engagement containers, concatenate all child text
                 const items = Array.from(element.children).map(itemNode => itemNode.textContent.trim());
                 textToCopy = items.join(', ');
             }
@@ -435,13 +555,51 @@
             }
         }
 
+        // Event listener for upload type radio buttons to show/hide live stream specifics
+        uploadTypeRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.value === 'live') {
+                    liveStreamSpecificsInput.style.display = 'block';
+                } else {
+                    liveStreamSpecificsInput.style.display = 'none';
+                }
+            });
+        });
+
+        // Function to simulate fetching trending keywords (In a real app, this would be an an API call)
+        async function fetchTrendingKeywords(topic) {
+            // This is a placeholder. In a real application, you would make an API call
+            // to a service like Google Trends or a custom backend that scrapes/provides trending data.
+            // For this demo, we'll return some generic or topic-related trending terms.
+            return new Promise(resolve => {
+                setTimeout(() => { // Simulate network delay
+                    const baseTrends = ["trending now", "viral video", "must watch", "new update"];
+                    if (topic.toLowerCase().includes("gaming")) {
+                        resolve([...baseTrends, "gaming news", "esports", "gameplay highlights"]);
+                    } else if (topic.toLowerCase().includes("ai")) {
+                        resolve([...baseTrends, "ai tools", "artificial intelligence", "tech trends"]);
+                    } else if (topic.toLowerCase().includes("tutorial")) {
+                        resolve([...baseTrends, "how to guide", "step by step", "learn fast"]);
+                    } else {
+                        resolve(baseTrends);
+                    }
+                }, 500);
+            });
+        }
+
+
         // Event listener for the Generate button
         generateBtn.addEventListener('click', async () => {
+            // Clear console for fresh logs with each generation attempt
+            console.clear();
+
             const videoTopic = videoTopicInput.value.trim();
             const videoTheme = videoThemeSelect.value;
             const targetAudience = targetAudienceSelect.value;
             const videoContentType = videoContentTypeSelect.value;
             const keyPoints = keyPointsInput.value.trim();
+            const userTrendingKeywords = trendingKeywordsInput.value.trim();
+            const liveStreamDetails = liveStreamDetailsInput.value.trim();
 
             // Get selected upload type
             let uploadType = '';
@@ -462,14 +620,23 @@
             loadingOverlay.classList.remove('hidden');
             outputContainer.classList.add('hidden'); // Hide previous output
 
+            // Determine trending keywords to use
+            let finalTrendingKeywords = userTrendingKeywords;
+            if (!userTrendingKeywords) {
+                // If user didn't provide, simulate fetching
+                const fetchedTrends = await fetchTrendingKeywords(videoTopic);
+                finalTrendingKeywords = fetchedTrends.join(', ');
+            }
+
             // Construct the prompt for the AI
-            const prompt = `Generate SEO-optimized YouTube video details (title, description, tags, hashtags, a long file name, and a thumbnail text suggestion) based on the following information:
+            let prompt = `Generate SEO-optimized YouTube video details (title, description, tags, hashtags, a long file name, a thumbnail text suggestion, trending keyword suggestions, and engagement prompts) based on the following information:
             - Video Topic/Main Idea: "${videoTopic}"
             - Video Theme/Style: "${videoTheme}"
             - Target Audience: "${targetAudience}"
             - Video Content Type: "${videoContentType}"
             - Upload Type: "${uploadType}"
             ${keyPoints ? `- Key Points/Content Highlights: "${keyPoints}"` : ''}
+            ${finalTrendingKeywords ? `- Incorporate these trending/highly searchable keywords: "${finalTrendingKeywords}"` : ''}
 
             The title should be catchy and include relevant keywords.
             The description should be detailed, include keywords naturally, and encourage engagement.
@@ -477,49 +644,81 @@
             The hashtags should be a comma-separated list of relevant hashtags, starting with '#'.
             The long file name should be descriptive and keyword-rich, suitable for SEO.
             The thumbnail text suggestion should be a short, impactful phrase for a video thumbnail.
+            Trending keyword suggestions should be a list of 5-7 additional highly relevant and currently searchable terms.
+            Engagement prompts should be 2-3 short, actionable phrases for the description or live chat to boost interaction (e.g., "What's your favorite part?", "Drop a comment below!").
+            IMPORTANT: Ensure all string values in the JSON are properly escaped (e.g., double quotes like \\" and newlines like \\n).`; // Added strict escaping instruction
 
-            Provide the output as a JSON object with the following structure:
-            {
-                "title": "Generated Title",
-                "description": "Generated Description",
-                "tags": ["tag1", "tag2", "tag3"],
-                "hashtags": ["#hashtag1", "#hashtag2"],
-                "long_file_name": "your_video_topic_keywords_full_hd.mp4",
-                "thumbnail_suggestion": "Thumbnail Text"
-            }`;
+
+            // Add live stream specific requests if applicable
+            if (uploadType === 'live') {
+                prompt += `
+
+                For a Live Stream, also provide:
+                - **Pre-Live SEO:** A separate title, description, and tags optimized for attracting viewers *as the live stream starts* (e.g., using terms like "LIVE NOW", "Join us").
+                - **Post-Live SEO (VOD):** A separate title, description, and tags optimized for the recorded Video-on-Demand (VOD) version *after the stream ends* (focus on discoverability for evergreen content).
+                ${liveStreamDetails ? `- Live Stream Specific Details: "${liveStreamDetails}"` : ''}
+                `;
+            }
+
 
             try {
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                // Define the expected JSON schema for the response
+                // Define the base response schema properties
+                let responseSchemaProperties = {
+                    "title": { "type": "STRING" },
+                    "description": { "type": "STRING" },
+                    "tags": { "type": "ARRAY", "items": { "type": "STRING" } },
+                    "hashtags": { "type": "ARRAY", "items": { "type": "STRING" } },
+                    "long_file_name": { "type": "STRING" },
+                    "thumbnail_suggestion": { "type": "STRING" },
+                    "trending_keywords": { "type": "ARRAY", "items": { "type": "STRING" } },
+                    "engagement_prompts": { "type": "ARRAY", "items": { "type": "STRING" } }
+                };
+
+                let propertyOrdering = [
+                    "title", "description", "tags", "hashtags", "long_file_name",
+                    "thumbnail_suggestion", "trending_keywords", "engagement_prompts"
+                ];
+
+                // Conditionally add live stream specific properties to the schema
+                if (uploadType === 'live') {
+                    responseSchemaProperties["live_pre_live_seo"] = {
+                        "type": "OBJECT",
+                        "properties": {
+                            "title": { "type": "STRING" },
+                            "description": { "type": "STRING" },
+                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
+                        }
+                    };
+                    responseSchemaProperties["live_post_live_seo"] = {
+                        "type": "OBJECT",
+                        "properties": {
+                            "title": { "type": "STRING" },
+                            "description": { "type": "STRING" },
+                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
+                        }
+                    };
+                    propertyOrdering.push("live_pre_live_seo", "live_post_live_seo");
+                }
+
                 const payload = {
                     contents: chatHistory,
                     generationConfig: {
                         responseMimeType: "application/json",
                         responseSchema: {
                             type: "OBJECT",
-                            properties: {
-                                "title": { "type": "STRING" },
-                                "description": { "type": "STRING" },
-                                "tags": {
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                },
-                                "hashtags": { // New property
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                },
-                                "long_file_name": { "type": "STRING" }, // New property
-                                "thumbnail_suggestion": { "type": "STRING" }
-                            },
-                            "propertyOrdering": ["title", "description", "tags", "hashtags", "long_file_name", "thumbnail_suggestion"]
+                            properties: responseSchemaProperties,
+                            propertyOrdering: propertyOrdering
                         }
                     }
                 };
 
-                const apiKey = "AIzaSyDje0Y3KWXCwikOPok9MWiNVUsKF2kOtmk"; // Canvas will provide this in runtime
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+                console.log('Sending API request to:', apiUrl);
+                console.log('Payload:', JSON.stringify(payload, null, 2));
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -527,60 +726,103 @@
                     body: JSON.stringify(payload)
                 });
 
+                console.log('API Response Status:', response.status);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API Response Error:', errorText);
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
+
                 const result = await response.json();
+                console.log('API Response JSON:', result);
 
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    const jsonString = result.candidates[0].content.parts[0].text;
-                    const seoDetails = JSON.parse(jsonString);
+                    let jsonString = result.candidates[0].content.parts[0].text;
+                    console.log('Raw JSON string from API:', jsonString);
+                    console.log('API finishReason:', result.candidates[0].finishReason); // Log finish reason
+
+                    let seoDetails;
+                    try {
+                        // Attempt to clean the string if it contains common LLM formatting issues
+                        // For example, if it's wrapped in markdown code block or has leading/trailing text
+                        let cleanedJsonString = jsonString.replace(/```json\n?|\n?```/g, '').trim();
+                        // Try to find the first '{' and last '}' to isolate the JSON object
+                        const firstBrace = cleanedJsonString.indexOf('{');
+                        const lastBrace = cleanedJsonString.lastIndexOf('}');
+                        if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+                            cleanedJsonString = cleanedJsonString.substring(firstBrace, lastBrace + 1);
+                        }
+                        seoDetails = JSON.parse(cleanedJsonString);
+                        console.log('Parsed SEO Details:', seoDetails);
+                    } catch (jsonParseError) {
+                        console.error('JSON Parse Error:', jsonParseError);
+                        console.error('Problematic raw JSON string:', jsonString); // Log the original string
+                        showMessage('Failed to parse AI response. The generated JSON was malformed. Please try again.');
+                        throw jsonParseError; // Re-throw to be caught by the outer catch block
+                    }
 
                     // Populate the output fields
                     generatedTitleElem.textContent = seoDetails.title || 'N/A';
                     generatedDescriptionElem.textContent = seoDetails.description || 'N/A';
                     generatedThumbnailElem.textContent = seoDetails.thumbnail_suggestion || 'N/A';
-                    generatedFileNameElem.textContent = seoDetails.long_file_name || 'N/A'; // Populate new file name
+                    generatedFileNameElem.textContent = seoDetails.long_file_name || 'N/A';
 
-                    // Clear previous tags and add new ones
-                    generatedTagsElem.innerHTML = '';
-                    if (seoDetails.tags && Array.isArray(seoDetails.tags)) {
-                        seoDetails.tags.forEach(tag => {
-                            const tagSpan = document.createElement('span');
-                            tagSpan.classList.add('output-tag-item');
-                            tagSpan.textContent = tag.trim();
-                            generatedTagsElem.appendChild(tagSpan);
-                        });
-                        generatedTagsRawElem.value = seoDetails.tags.join(', '); // For raw copy
-                    } else {
-                        generatedTagsElem.textContent = 'N/A';
-                        generatedTagsRawElem.value = '';
-                    }
+                    // Helper to populate tag-like elements
+                    const populateTagLike = (element, rawElement, data) => {
+                        element.innerHTML = '';
+                        if (data && Array.isArray(data)) {
+                            data.forEach(item => {
+                                const span = document.createElement('span');
+                                span.classList.add('output-tag-item');
+                                span.textContent = item.trim();
+                                element.appendChild(span);
+                            });
+                            rawElement.value = data.join(', ');
+                        } else {
+                            element.textContent = 'N/A';
+                            rawElement.value = '';
+                        }
+                    };
 
-                    // Clear previous hashtags and add new ones
-                    generatedHashtagsElem.innerHTML = '';
-                    if (seoDetails.hashtags && Array.isArray(seoDetails.hashtags)) {
-                        seoDetails.hashtags.forEach(hashtag => {
-                            const hashtagSpan = document.createElement('span');
-                            hashtagSpan.classList.add('output-tag-item'); // Reusing tag item style
-                            hashtagSpan.textContent = hashtag.trim();
-                            generatedHashtagsElem.appendChild(hashtagSpan);
-                        });
-                        generatedHashtagsRawElem.value = seoDetails.hashtags.join(', '); // For raw copy
+                    populateTagLike(generatedTagsElem, generatedTagsRawElem, seoDetails.tags);
+                    populateTagLike(generatedHashtagsElem, generatedHashtagsRawElem, seoDetails.hashtags);
+                    populateTagLike(generatedTrendingKeywordsElem, generatedTrendingKeywordsRawElem, seoDetails.trending_keywords);
+                    populateTagLike(generatedEngagementElem, generatedEngagementRawElem, seoDetails.engagement_prompts);
+
+
+                    // Handle Live Stream specific outputs
+                    if (uploadType === 'live') {
+                        // Ensure these properties exist in the API response before trying to access them
+                        const preLive = seoDetails.live_pre_live_seo || {};
+                        const postLive = seoDetails.live_post_live_seo || {};
+
+                        livePreLiveOutput.style.display = 'block';
+                        livePostLiveOutput.style.display = 'block';
+
+                        livePreLiveTitle.textContent = preLive.title || 'N/A';
+                        livePreLiveDescription.textContent = preLive.description || 'N/A';
+                        populateTagLike(livePreLiveTags, livePreLiveTagsRaw, preLive.tags);
+
+                        livePostLiveTitle.textContent = postLive.title || 'N/A';
+                        livePostLiveDescription.textContent = postLive.description || 'N/A';
+                        populateTagLike(livePostLiveTags, livePostLiveTagsRaw, postLive.tags);
                     } else {
-                        generatedHashtagsElem.textContent = 'N/A';
-                        generatedHashtagsRawElem.value = '';
+                        livePreLiveOutput.style.display = 'none';
+                        livePostLiveOutput.style.display = 'none';
                     }
 
                     outputContainer.classList.remove('hidden'); // Show output section
 
                 } else {
-                    showMessage('Failed to generate SEO details. Please try again.');
-                    console.error('Unexpected API response structure:', result);
+                    showMessage('Failed to generate SEO details. Unexpected API response structure or missing content.');
+                    console.error('Unexpected API response structure or missing content:', result);
                 }
 
             } catch (error) {
-                showMessage('An error occurred during generation. Please check your input and try again.');
-                console.error('Error calling Gemini API:', error);
+                showMessage('An error occurred during generation. Please check your input and the browser console for details.');
+                console.error('Error during API call or JSON parsing:', error);
             } finally {
                 // Hide loading overlay
                 loadingOverlay.classList.add('hidden');
