@@ -590,6 +590,9 @@
 
         // Event listener for the Generate button
         generateBtn.addEventListener('click', async () => {
+            // Clear console for fresh logs with each generation attempt
+            console.clear();
+
             const videoTopic = videoTopicInput.value.trim();
             const videoTheme = videoThemeSelect.value;
             const targetAudience = targetAudienceSelect.value;
@@ -660,17 +663,17 @@
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                // Dynamically build the responseSchema
-                let responseSchemaProperties = {
-                    "title": { "type": "STRING" },
-                    "description": { "type": "STRING" },
-                    "tags": { "type": "ARRAY", "items": { "type": "STRING" } },
-                    "hashtags": { "type": "ARRAY", "items": { "type": "STRING" } },
-                    "long_file_name": { "type": "STRING" },
-                    "thumbnail_suggestion": { "type": "STRING" },
-                    "trending_keywords": { "type": "ARRAY", "items": { "type": "STRING" } },
-                    "engagement_prompts": { "type": "ARRAY", "items": { "type": "STRING" } }
-                };
+                // Dynamically build the responseSchema properties as an array of objects
+                let responseSchemaProperties = [
+                    { "name": "title", "value": { "type": "STRING" } },
+                    { "name": "description", "value": { "type": "STRING" } },
+                    { "name": "tags", "value": { "type": "ARRAY", "items": { "type": "STRING" } } },
+                    { "name": "hashtags", "value": { "type": "ARRAY", "items": { "type": "STRING" } } },
+                    { "name": "long_file_name", "value": { "type": "STRING" } },
+                    { "name": "thumbnail_suggestion", "value": { "type": "STRING" } },
+                    { "name": "trending_keywords", "value": { "type": "ARRAY", "items": { "type": "STRING" } } },
+                    { "name": "engagement_prompts", "value": { "type": "ARRAY", "items": { "type": "STRING" } } }
+                ];
 
                 let propertyOrdering = [
                     "title", "description", "tags", "hashtags", "long_file_name",
@@ -678,22 +681,30 @@
                 ];
 
                 if (uploadType === 'live') {
-                    responseSchemaProperties["live_pre_live_seo"] = {
-                        "type": "OBJECT",
-                        "properties": {
-                            "title": { "type": "STRING" },
-                            "description": { "type": "STRING" },
-                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
+                    responseSchemaProperties.push(
+                        {
+                            "name": "live_pre_live_seo",
+                            "value": {
+                                "type": "OBJECT",
+                                "properties": [
+                                    { "name": "title", "value": { "type": "STRING" } },
+                                    { "name": "description", "value": { "type": "STRING" } },
+                                    { "name": "tags", "value": { "type": "ARRAY", "items": { "type": "STRING" } } }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "live_post_live_seo",
+                            "value": {
+                                "type": "OBJECT",
+                                "properties": [
+                                    { "name": "title", "value": { "type": "STRING" } },
+                                    { "name": "description", "value": { "type": "STRING" } },
+                                    { "name": "tags", "value": { "type": "ARRAY", "items": { "type": "STRING" } } }
+                                ]
+                            }
                         }
-                    };
-                    responseSchemaProperties["live_post_live_seo"] = {
-                        "type": "OBJECT",
-                        "properties": {
-                            "title": { "type": "STRING" },
-                            "description": { "type": "STRING" },
-                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                        }
-                    };
+                    );
                     propertyOrdering.push("live_pre_live_seo", "live_post_live_seo");
                 }
 
@@ -703,7 +714,7 @@
                         responseMimeType: "application/json",
                         responseSchema: {
                             type: "OBJECT",
-                            properties: responseSchemaProperties,
+                            properties: responseSchemaProperties, // Now an array of objects
                             propertyOrdering: propertyOrdering
                         }
                     }
