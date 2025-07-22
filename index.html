@@ -660,56 +660,51 @@
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                // Define the expected JSON schema for the response
+                // Dynamically build the responseSchema
+                let responseSchemaProperties = {
+                    "title": { "type": "STRING" },
+                    "description": { "type": "STRING" },
+                    "tags": { "type": "ARRAY", "items": { "type": "STRING" } },
+                    "hashtags": { "type": "ARRAY", "items": { "type": "STRING" } },
+                    "long_file_name": { "type": "STRING" },
+                    "thumbnail_suggestion": { "type": "STRING" },
+                    "trending_keywords": { "type": "ARRAY", "items": { "type": "STRING" } },
+                    "engagement_prompts": { "type": "ARRAY", "items": { "type": "STRING" } }
+                };
+
+                let propertyOrdering = [
+                    "title", "description", "tags", "hashtags", "long_file_name",
+                    "thumbnail_suggestion", "trending_keywords", "engagement_prompts"
+                ];
+
+                if (uploadType === 'live') {
+                    responseSchemaProperties["live_pre_live_seo"] = {
+                        "type": "OBJECT",
+                        "properties": {
+                            "title": { "type": "STRING" },
+                            "description": { "type": "STRING" },
+                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
+                        }
+                    };
+                    responseSchemaProperties["live_post_live_seo"] = {
+                        "type": "OBJECT",
+                        "properties": {
+                            "title": { "type": "STRING" },
+                            "description": { "type": "STRING" },
+                            "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
+                        }
+                    };
+                    propertyOrdering.push("live_pre_live_seo", "live_post_live_seo");
+                }
+
                 const payload = {
                     contents: chatHistory,
                     generationConfig: {
                         responseMimeType: "application/json",
                         responseSchema: {
                             type: "OBJECT",
-                            properties: {
-                                "title": { "type": "STRING" },
-                                "description": { "type": "STRING" },
-                                "tags": {
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                },
-                                "hashtags": {
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                },
-                                "long_file_name": { "type": "STRING" },
-                                "thumbnail_suggestion": { "type": "STRING" },
-                                "trending_keywords": {
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                },
-                                "engagement_prompts": {
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                },
-                                "live_pre_live_seo": {
-                                    "type": "OBJECT",
-                                    "properties": {
-                                        "title": { "type": "STRING" },
-                                        "description": { "type": "STRING" },
-                                        "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                                    }
-                                },
-                                "live_post_live_seo": {
-                                    "type": "OBJECT",
-                                    "properties": {
-                                        "title": { "type": "STRING" },
-                                        "description": { "type": "STRING" },
-                                        "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                                    }
-                                }
-                            },
-                            "propertyOrdering": [
-                                "title", "description", "tags", "hashtags", "long_file_name",
-                                "thumbnail_suggestion", "trending_keywords", "engagement_prompts",
-                                "live_pre_live_seo", "live_post_live_seo"
-                            ]
+                            properties: responseSchemaProperties,
+                            propertyOrdering: propertyOrdering
                         }
                     }
                 };
@@ -773,17 +768,21 @@
 
 
                     // Handle Live Stream specific outputs
-                    if (uploadType === 'live' && seoDetails.live_pre_live_seo && seoDetails.live_post_live_seo) {
+                    if (uploadType === 'live') {
+                        // Ensure these properties exist in the API response before trying to access them
+                        const preLive = seoDetails.live_pre_live_seo || {};
+                        const postLive = seoDetails.live_post_live_seo || {};
+
                         livePreLiveOutput.style.display = 'block';
                         livePostLiveOutput.style.display = 'block';
 
-                        livePreLiveTitle.textContent = seoDetails.live_pre_live_seo.title || 'N/A';
-                        livePreLiveDescription.textContent = seoDetails.live_pre_live_seo.description || 'N/A';
-                        populateTagLike(livePreLiveTags, livePreLiveTagsRaw, seoDetails.live_pre_live_seo.tags);
+                        livePreLiveTitle.textContent = preLive.title || 'N/A';
+                        livePreLiveDescription.textContent = preLive.description || 'N/A';
+                        populateTagLike(livePreLiveTags, livePreLiveTagsRaw, preLive.tags);
 
-                        livePostLiveTitle.textContent = seoDetails.live_post_live_seo.title || 'N/A';
-                        livePostLiveDescription.textContent = seoDetails.live_post_live_seo.description || 'N/A';
-                        populateTagLike(livePostLiveTags, livePostLiveTagsRaw, seoDetails.live_post_live_seo.tags);
+                        livePostLiveTitle.textContent = postLive.title || 'N/A';
+                        livePostLiveDescription.textContent = postLive.description || 'N/A';
+                        populateTagLike(livePostLiveTags, livePostLiveTagsRaw, postLive.tags);
                     } else {
                         livePreLiveOutput.style.display = 'none';
                         livePostLiveOutput.style.display = 'none';
@@ -792,7 +791,7 @@
                     outputContainer.classList.remove('hidden'); // Show output section
 
                 } else {
-                    showMessage('Failed to generate SEO details. Please try again.');
+                    showMessage('Failed to generate SEO details. Unexpected API response structure or missing content.');
                     console.error('Unexpected API response structure or missing content:', result);
                 }
 
