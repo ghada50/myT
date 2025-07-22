@@ -216,6 +216,7 @@
                     <option value="challenge">Challenge</option>
                     <option value="unboxing">Unboxing</option>
                     <option value="qna">Q&A</option>
+                    <option value="music">Music Video</option>
                     <option value="other">Other</option>
                 </select>
             </div>
@@ -473,7 +474,7 @@
     <script>
         // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API key.
         // You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
-        const GEMINI_API_KEY = "AIzaSyCeNHYEpYPlLDBfnviPvedWjc1T1hep1io";
+        const GEMINI_API_KEY = "AIzaSyCeNHYEpYPlLDBfnviPvedWjc1T1hep1io"; // Your new API key is placed here!
 
         // Get references to DOM elements
         const generateBtn = document.getElementById('generateBtn');
@@ -483,9 +484,9 @@
         const videoContentTypeSelect = document.getElementById('videoContentType');
         const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]');
         const keyPointsInput = document.getElementById('keyPoints');
-        const trendingKeywordsInput = document.getElementById('trendingKeywords'); // New
-        const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput'); // New container
-        const liveStreamDetailsInput = document.getElementById('liveStreamDetails'); // New
+        const trendingKeywordsInput = document.getElementById('trendingKeywords');
+        const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput');
+        const liveStreamDetailsInput = document.getElementById('liveStreamDetails');
 
         const outputContainer = document.getElementById('outputContainer');
         const generatedTitleElem = document.getElementById('generatedTitle');
@@ -496,20 +497,20 @@
         const generatedHashtagsRawElem = document.getElementById('generatedHashtagsRaw');
         const generatedFileNameElem = document.getElementById('generatedFileName');
         const generatedThumbnailElem = document.getElementById('generatedThumbnail');
-        const generatedTrendingKeywordsElem = document.getElementById('generatedTrendingKeywords'); // New
-        const generatedTrendingKeywordsRawElem = document.getElementById('generatedTrendingKeywordsRaw'); // New
-        const livePreLiveOutput = document.getElementById('livePreLiveOutput'); // New
-        const livePreLiveTitle = document.getElementById('livePreLiveTitle'); // New
-        const livePreLiveDescription = document.getElementById('livePreLiveDescription'); // New
-        const livePreLiveTags = document.getElementById('livePreLiveTags'); // New
-        const livePreLiveTagsRaw = document.getElementById('livePreLiveTagsRaw'); // New
-        const livePostLiveOutput = document.getElementById('livePostLiveOutput'); // New
-        const livePostLiveTitle = document.getElementById('livePostLiveTitle'); // New
-        const livePostLiveDescription = document.getElementById('livePostLiveDescription'); // New
-        const livePostLiveTags = document.getElementById('livePostLiveTags'); // New
-        const livePostLiveTagsRaw = document.getElementById('livePostLiveTagsRaw'); // New
-        const generatedEngagementElem = document.getElementById('generatedEngagement'); // New
-        const generatedEngagementRawElem = document.getElementById('generatedEngagementRaw'); // New
+        const generatedTrendingKeywordsElem = document.getElementById('generatedTrendingKeywords');
+        const generatedTrendingKeywordsRawElem = document.getElementById('generatedTrendingKeywordsRaw');
+        const livePreLiveOutput = document.getElementById('livePreLiveOutput');
+        const livePreLiveTitle = document.getElementById('livePreLiveTitle');
+        const livePreLiveDescription = document.getElementById('livePreLiveDescription');
+        const livePreLiveTags = document.getElementById('livePreLiveTags');
+        const livePreLiveTagsRaw = document.getElementById('livePreLiveTagsRaw');
+        const livePostLiveOutput = document.getElementById('livePostLiveOutput');
+        const livePostLiveTitle = document.getElementById('livePostLiveTitle');
+        const livePostLiveDescription = document.getElementById('livePostLiveDescription');
+        const livePostLiveTags = document.getElementById('livePostLiveTags');
+        const livePostLiveTagsRaw = document.getElementById('livePostLiveTagsRaw');
+        const generatedEngagementElem = document.getElementById('generatedEngagement');
+        const generatedEngagementRawElem = document.getElementById('generatedEngagementRaw');
 
         const loadingOverlay = document.getElementById('loadingOverlay');
         const messageBox = document.getElementById('messageBox');
@@ -594,8 +595,8 @@
             const targetAudience = targetAudienceSelect.value;
             const videoContentType = videoContentTypeSelect.value;
             const keyPoints = keyPointsInput.value.trim();
-            const userTrendingKeywords = trendingKeywordsInput.value.trim(); // New
-            const liveStreamDetails = liveStreamDetailsInput.value.trim(); // New
+            const userTrendingKeywords = trendingKeywordsInput.value.trim();
+            const liveStreamDetails = liveStreamDetailsInput.value.trim();
 
             // Get selected upload type
             let uploadType = '';
@@ -679,31 +680,29 @@
                                 },
                                 "long_file_name": { "type": "STRING" },
                                 "thumbnail_suggestion": { "type": "STRING" },
-                                "trending_keywords": { // New property
+                                "trending_keywords": {
                                     "type": "ARRAY",
                                     "items": { "type": "STRING" }
                                 },
-                                "engagement_prompts": { // New property
+                                "engagement_prompts": {
                                     "type": "ARRAY",
                                     "items": { "type": "STRING" }
                                 },
-                                "live_pre_live_seo": { // New property for live streams
+                                "live_pre_live_seo": {
                                     "type": "OBJECT",
                                     "properties": {
                                         "title": { "type": "STRING" },
                                         "description": { "type": "STRING" },
                                         "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                                    },
-                                    "optional": true
+                                    }
                                 },
-                                "live_post_live_seo": { // New property for live streams
+                                "live_post_live_seo": {
                                     "type": "OBJECT",
                                     "properties": {
                                         "title": { "type": "STRING" },
                                         "description": { "type": "STRING" },
                                         "tags": { "type": "ARRAY", "items": { "type": "STRING" } }
-                                    },
-                                    "optional": true
+                                    }
                                 }
                             },
                             "propertyOrdering": [
