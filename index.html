@@ -284,6 +284,12 @@
         </div>
 
         <div class="input-group mb-8">
+            <label for="thumbnailPrompt">Interactive Thumbnail Prompt (Optional):</label>
+            <textarea id="thumbnailPrompt" rows="2" placeholder="e.g., A bright thumbnail with a person reacting with a surprised face next to a big red arrow pointing to text that says 'AI Made This?!'" class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <p class="text-sm text-gray-500 mt-1">Describe the specific visual elements you want to see.</p>
+        </div>
+
+        <div class="input-group mb-8">
             <label for="trendingKeywords">Specific Trending Keywords (Optional):</label>
             <input type="text" id="trendingKeywords" placeholder="e.g., Summer trends, AI tools 2024, New game release" class="focus:ring-indigo-500 focus:border-indigo-500">
             <p class="text-sm text-gray-500 mt-1">Leave empty for AI to suggest based on topic.</p>
@@ -388,9 +394,6 @@
                 <textarea id="generatedTrendingKeywordsRaw" class="hidden"></textarea>
             </div>
 
-            <!-- Removed Live Stream Pre-Live Details -->
-            <!-- Removed Live Stream Post-Live Details -->
-
             <!-- Engagement & CTA Suggestions -->
             <div class="output-section">
                 <div class="flex justify-between items-center mb-2">
@@ -417,9 +420,9 @@
     <div id="messageBox" class="message-box"></div>
 
     <script>
-        // IMPORTANT: Replace "YOUR_GEMINI_API_KEY_HERE" with your actual Gemini API key.
-        // You can get one from Google AI Studio: https://aistudio.google.com/app/apikey
-        const GEMINI_API_KEY = "AIzaSyCeNHYEpYPlLDBfnviPvedWjc1T1hep1io"; // Your new API key is placed here!
+        // IMPORTANT: The API key is now handled by the environment for supported models.
+        // We set it to an empty string to use the default key provided by the canvas.
+        const GEMINI_API_KEY = "";
 
         // Get references to DOM elements
         const generateBtn = document.getElementById('generateBtn');
@@ -429,9 +432,10 @@
         const videoContentTypeSelect = document.getElementById('videoContentType');
         const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]');
         const keyPointsInput = document.getElementById('keyPoints');
+        const thumbnailPromptInput = document.getElementById('thumbnailPrompt'); // New thumbnail prompt input
         const trendingKeywordsInput = document.getElementById('trendingKeywords');
-        const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput'); // Keep this for showing/hiding
-        const liveStreamDetailsInput = document.getElementById('liveStreamDetails'); // Keep this for prompt input
+        const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput');
+        const liveStreamDetailsInput = document.getElementById('liveStreamDetails');
 
         const outputContainer = document.getElementById('outputContainer');
         const generatedTitleElem = document.getElementById('generatedTitle');
@@ -442,10 +446,8 @@
         const generatedHashtagsRawElem = document.getElementById('generatedHashtagsRaw');
         const generatedFileNameElem = document.getElementById('generatedFileName');
         const generatedThumbnailElem = document.getElementById('generatedThumbnail');
-        const generatedTrendingKeywordsElem = document = document.getElementById('generatedTrendingKeywords');
+        const generatedTrendingKeywordsElem = document.getElementById('generatedTrendingKeywords');
         const generatedTrendingKeywordsRawElem = document.getElementById('generatedTrendingKeywordsRaw');
-        // Removed livePreLiveOutput, livePreLiveTitle, livePreLiveDescription, livePreLiveTags, livePreLiveTagsRaw
-        // Removed livePostLiveOutput, livePostLiveTitle, livePostLiveDescription, livePostLiveTags, livePostLiveTagsRaw
         const generatedEngagementElem = document.getElementById('generatedEngagement');
         const generatedEngagementRawElem = document.getElementById('generatedEngagementRaw');
 
@@ -535,8 +537,9 @@
             const targetAudience = targetAudienceSelect.value;
             const videoContentType = videoContentTypeSelect.value;
             const keyPoints = keyPointsInput.value.trim();
+            const thumbnailPrompt = thumbnailPromptInput.value.trim(); // Get the new thumbnail prompt
             const userTrendingKeywords = trendingKeywordsInput.value.trim();
-            const liveStreamDetails = liveStreamDetailsInput.value.trim(); // Still get this value if live is selected
+            const liveStreamDetails = liveStreamDetailsInput.value.trim();
 
             // Get selected upload type
             let uploadType = '';
@@ -573,6 +576,7 @@
             - Video Content Type: "${videoContentType}"
             - Upload Type: "${uploadType}"
             ${keyPoints ? `- Key Points/Content Highlights: "${keyPoints}"` : ''}
+            ${thumbnailPrompt ? `- Interactive Thumbnail Prompt: "${thumbnailPrompt}"` : ''}
             ${finalTrendingKeywords ? `- Incorporate these trending/highly searchable keywords: "${finalTrendingKeywords}"` : ''}
             ${uploadType === 'live' && liveStreamDetails ? `- Live Stream Specific Details: "${liveStreamDetails}"` : ''}
 
@@ -581,9 +585,9 @@
             The tags should be a comma-separated list of highly relevant keywords.
             The hashtags should be a comma-separated list of relevant hashtags, starting with '#'.
             The long file name should be descriptive and keyword-rich, suitable for SEO.
-            The thumbnail text suggestion should be a short, impactful phrase for a video thumbnail.
+            The thumbnail text suggestion should be a short, impactful phrase for a video thumbnail. If an Interactive Thumbnail Prompt is provided, use it to create a more detailed and engaging suggestion.
             Trending keyword suggestions should be a list of 5-7 additional highly relevant and currently searchable terms.
-            Engagement prompts should be 2-3 short, actionable phrases for the description or live chat to boost interaction (e.g., "What's your favorite part?", "Drop a comment below!").
+            Engagement prompts should be 2-3 short, actionable phrases for the description or live chat to boost interaction. For live and regular videos, specifically include an interactive message to thank viewers for their support and invite them to send a Super Thanks. Also, include a separate call to action to become a channel member.
             IMPORTANT: Ensure all string values in the JSON are properly escaped (e.g., double quotes like \\" and newlines like \\n).`;
 
 
@@ -591,7 +595,7 @@
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
-                // Define the response schema properties (no live stream specific properties)
+                // Define the response schema properties
                 let responseSchemaProperties = {
                     "title": { "type": "STRING" },
                     "description": { "type": "STRING" },
@@ -620,7 +624,7 @@
                     }
                 };
 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
 
                 console.log('Sending API request to:', apiUrl);
                 console.log('Payload:', JSON.stringify(payload, null, 2));
@@ -646,14 +650,11 @@
                     result.candidates[0].content.parts.length > 0) {
                     let jsonString = result.candidates[0].content.parts[0].text;
                     console.log('Raw JSON string from API:', jsonString);
-                    console.log('API finishReason:', result.candidates[0].finishReason); // Log finish reason
+                    console.log('API finishReason:', result.candidates[0].finishReason);
 
                     let seoDetails;
                     try {
-                        // Attempt to clean the string if it contains common LLM formatting issues
-                        // For example, if it's wrapped in markdown code block or has leading/trailing text
                         let cleanedJsonString = jsonString.replace(/```json\n?|\n?```/g, '').trim();
-                        // Try to find the first '{' and last '}' to isolate the JSON object
                         const firstBrace = cleanedJsonString.indexOf('{');
                         const lastBrace = cleanedJsonString.lastIndexOf('}');
                         if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
@@ -663,9 +664,9 @@
                         console.log('Parsed SEO Details:', seoDetails);
                     } catch (jsonParseError) {
                         console.error('JSON Parse Error:', jsonParseError);
-                        console.error('Problematic raw JSON string:', jsonString); // Log the original string
+                        console.error('Problematic raw JSON string:', jsonString);
                         showMessage('Failed to parse AI response. The generated JSON was malformed. Please try again.');
-                        throw jsonParseError; // Re-throw to be caught by the outer catch block
+                        throw jsonParseError;
                     }
 
                     // Populate the output fields
@@ -695,14 +696,6 @@
                     populateTagLike(generatedHashtagsElem, generatedHashtagsRawElem, seoDetails.hashtags);
                     populateTagLike(generatedTrendingKeywordsElem, generatedTrendingKeywordsRawElem, seoDetails.trending_keywords);
                     populateTagLike(generatedEngagementElem, generatedEngagementRawElem, seoDetails.engagement_prompts);
-
-
-                    // Ensure live stream specific output sections are hidden
-                    // (These elements are no longer in the HTML, but this ensures no residual display issues)
-                    // If you decide to re-add them, this logic would need to be re-enabled.
-                    // livePreLiveOutput.style.display = 'none';
-                    // livePostLiveOutput.style.display = 'none';
-
 
                     outputContainer.classList.remove('hidden'); // Show output section
 
