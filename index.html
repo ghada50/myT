@@ -11,21 +11,29 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* General Body and Container Styling */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
+            background-color: #f0f4f8; /* A very light blue-gray for a clean background */
+            transition: background-color 0.5s ease-in-out;
         }
         .container {
             max-width: 960px;
             margin: 40px auto;
             padding: 30px;
             background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
         }
+        .container:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Input Group and Form Element Styling */
         .input-group label {
             font-weight: 600;
-            color: #333;
+            color: #2c3e50; /* Darker text for better contrast */
             margin-bottom: 8px;
             display: block;
         }
@@ -33,98 +41,132 @@
         .input-group textarea,
         .input-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: 1px solid #dcdfe6;
+            border-radius: 10px;
             font-size: 16px;
-            color: #555;
+            color: #34495e;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            background-color: #f9f9f9;
+            background-color: #f7f9fc;
         }
         .input-group input:focus,
         .input-group textarea:focus,
         .input-group select:focus {
             outline: none;
-            border-color: #6366f1; /* Indigo-500 */
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Indigo-500 with transparency */
+            border-color: #4a90e2; /* A professional blue on focus */
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2); /* Soft focus glow */
         }
+        .input-group textarea {
+            min-height: 80px;
+        }
+
+        /* Primary Button Styling */
         .btn-primary {
-            background-color: #6366f1; /* Indigo-500 */
+            background-image: linear-gradient(135deg, #4a90e2 0%, #007bff 100%);
             color: white;
-            padding: 14px 25px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 17px;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
+            border: none;
         }
         .btn-primary:hover {
-            background-color: #4f46e5; /* Indigo-600 */
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 123, 255, 0.4);
         }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        /* Copy Button Styling */
         .btn-copy {
-            background-color: #e0e7ff; /* Indigo-100 */
-            color: #4f46e5; /* Indigo-600 */
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 14px;
+            background-color: #e3f2fd; /* Light blue */
+            color: #4a90e2; /* Professional blue */
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            border: none;
+            font-weight: 500;
         }
         .btn-copy:hover {
-            background-color: #c7d2fe; /* Indigo-200 */
-            color: #312e81; /* Indigo-800 */
+            background-color: #c9e6ff;
+            color: #1a5a9c;
+            transform: scale(1.05);
         }
+
+        /* Output Section Styling */
         .output-section {
-            background-color: #f8fafc; /* Light blue-gray */
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
+            background-color: #f8fafd; /* Very light, clean background */
+            border: 1px solid #e1eaf3;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
             position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .output-section:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
         }
         .output-section h3 {
-            color: #333;
-            font-weight: 600;
-            font-size: 18px;
-            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .output-content {
-            white-space: pre-wrap; /* Preserves newlines and wraps text */
-            word-wrap: break-word; /* Breaks long words */
+            white-space: pre-wrap;
+            word-wrap: break-word;
             color: #555;
-            font-size: 15px;
-            line-height: 1.6;
-            padding-right: 40px; /* Space for copy button */
+            font-size: 16px;
+            line-height: 1.7;
+            padding-right: 40px;
         }
         .output-tags, .output-hashtags, .output-engagement {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 15px;
         }
         .output-tag-item {
-            background-color: #e0e7ff; /* Indigo-100 */
-            color: #4f46e5; /* Indigo-600 */
-            padding: 6px 12px;
+            background-color: #e3f2fd;
+            color: #4a90e2;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 500;
+            border: 1px solid #b3d9ff;
+            transition: background-color 0.3s ease;
         }
+        .output-tag-item:hover {
+            background-color: #c9e6ff;
+        }
+
+        /* Loading Overlay Styling */
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -132,37 +174,54 @@
             flex-direction: column;
         }
         .spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #6366f1;
+            border: 6px solid #e0eaf3;
+            border-top: 6px solid #4a90e2;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .loading-text {
+            color: #2c3e50;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Message Box Styling */
         .message-box {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #333;
+            background-color: #34495e;
             color: white;
             padding: 12px 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
             z-index: 1001;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .message-box.show {
             opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
+
+        /* Radio Group Styling */
         .radio-group {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 25px;
             margin-top: 10px;
         }
         .radio-group label {
@@ -171,17 +230,22 @@
             cursor: pointer;
             font-weight: 500;
             color: #555;
+            transition: color 0.3s ease;
+        }
+        .radio-group label:hover {
+            color: #4a90e2;
         }
         .radio-group input[type="radio"] {
-            margin-right: 8px;
-            transform: scale(1.2); /* Slightly larger radio buttons */
+            margin-right: 10px;
+            transform: scale(1.1);
+            accent-color: #4a90e2;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
-            <i class="fab fa-youtube text-red-500 mr-3"></i>Advanced YouTube SEO Generator
+            <i class="fab fa-youtube text-red-500 mr-3"></i>Advanced YouTube SEO Generator 
         </h1>
         <p class="text-center text-gray-600 mb-10 leading-relaxed">
             Effortlessly generate SEO-optimized titles, descriptions, and tags for your YouTube videos,
@@ -191,11 +255,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="input-group">
                 <label for="videoTopic">Video Topic/Main Idea:</label>
-                <input type="text" id="videoTopic" placeholder="e.g., How to Edit Videos Faster" class="focus:ring-indigo-500 focus:border-indigo-500">
+                <input type="text" id="videoTopic" placeholder="e.g., How to Edit Videos Faster">
             </div>
             <div class="input-group">
                 <label for="videoTheme">Video Theme/Style:</label>
-                <select id="videoTheme" class="focus:ring-indigo-500 focus:border-indigo-500">
+                <select id="videoTheme">
                     <option value="">Select Video Theme/Style</option>
                     <option value="educational">Educational</option>
                     <option value="entertainment">Entertainment</option>
@@ -222,7 +286,7 @@
             </div>
             <div class="input-group">
                 <label for="targetAudience">Target Audience:</label>
-                <select id="targetAudience" class="focus:ring-indigo-500 focus:border-indigo-500">
+                <select id="targetAudience">
                     <option value="">Select Target Audience</option>
                     <option value="beginners">Beginners</option>
                     <option value="advanced_users">Advanced Users</option>
@@ -246,7 +310,7 @@
             </div>
             <div class="input-group">
                 <label for="videoContentType">Video Content Type:</label>
-                <select id="videoContentType" class="focus:ring-indigo-500 focus:border-indigo-500">
+                <select id="videoContentType">
                     <option value="">Select Video Content Type</option>
                     <option value="tutorial">Tutorial/How-to</option>
                     <option value="vlog">Vlog</option>
@@ -260,6 +324,17 @@
                     <option value="music">Music Video</option>
                     <option value="other">Other</option>
                 </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="input-group">
+                <label for="channelNiche">Channel Niche (Optional):</label>
+                <input type="text" id="channelNiche" placeholder="e.g., Tech Reviews, Fitness Motivation, Baking Tutorials">
+            </div>
+            <div class="input-group">
+                <label for="videoGoals">Video Goals (Optional):</label>
+                <input type="text" id="videoGoals" placeholder="e.g., Build brand authority, drive sales, inform an audience">
             </div>
         </div>
 
@@ -280,24 +355,24 @@
 
         <div class="input-group mb-8">
             <label for="keyPoints">Key Points/Content Highlights (Optional):</label>
-            <textarea id="keyPoints" rows="3" placeholder="e.g., Covers basic editing, uses free software, shows export settings. (Separate with commas or new lines)" class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <textarea id="keyPoints" rows="3" placeholder="e.g., Covers basic editing, uses free software, shows export settings. (Separate with commas or new lines)"></textarea>
         </div>
 
         <div class="input-group mb-8">
             <label for="thumbnailPrompt">Interactive Thumbnail Prompt (Optional):</label>
-            <textarea id="thumbnailPrompt" rows="2" placeholder="e.g., A bright thumbnail with a person reacting with a surprised face next to a big red arrow pointing to text that says 'AI Made This?!'" class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <textarea id="thumbnailPrompt" rows="2" placeholder="e.g., A bright thumbnail with a person reacting with a surprised face next to a big red arrow pointing to text that says 'AI Made This?!'"></textarea>
             <p class="text-sm text-gray-500 mt-1">Describe the specific visual elements you want to see.</p>
         </div>
 
         <div class="input-group mb-8">
             <label for="trendingKeywords">Specific Trending Keywords (Optional):</label>
-            <input type="text" id="trendingKeywords" placeholder="e.g., Summer trends, AI tools 2025, New game release" class="focus:ring-indigo-500 focus:border-indigo-500">
+            <input type="text" id="trendingKeywords" placeholder="e.g., Summer trends, AI tools 2025, New game release">
             <p class="text-sm text-gray-500 mt-1">Leave empty for AI to suggest based on topic.</p>
         </div>
 
         <div class="input-group mb-8" id="liveStreamSpecificsInput" style="display: none;">
             <label for="liveStreamDetails">Live Stream Specifics (Guests, Agenda, Interactivity):</label>
-            <textarea id="liveStreamDetails" rows="3" placeholder="e.g., Q&A with special guest John Doe, playing new horror game, audience polls." class="focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <textarea id="liveStreamDetails" rows="3" placeholder="e.g., Q&A with special guest John Doe, playing new horror game, audience polls."></textarea>
             <p class="text-sm text-gray-500 mt-1">Details to help optimize your live stream.</p>
         </div>
 
@@ -309,7 +384,7 @@
             <!-- Generated Title -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-heading mr-2 text-indigo-500"></i>Optimized Title</h3>
+                    <h3><span role="img" aria-label="blue book emoji">📘</span>Optimized Title</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedTitle')">
                         <i class="fas fa-copy"></i> Copy
                     </button>
@@ -320,7 +395,7 @@
             <!-- Generated Description -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-align-left mr-2 text-indigo-500"></i>SEO Description</h3>
+                    <h3><span role="img" aria-label="blue pen emoji">✒️</span>SEO Description</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedDescription')">
                         <i class="fas fa-copy"></i> Copy
                     </button>
@@ -331,7 +406,7 @@
             <!-- Generated Tags -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-tags mr-2 text-indigo-500"></i>Relevant Tags</h3>
+                    <h3><span role="img" aria-label="blue tag emoji">🏷️</span>Relevant Tags</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedTagsRaw')">
                         <i class="fas fa-copy"></i> Copy All
                     </button>
@@ -346,7 +421,7 @@
             <!-- Generated Hashtags -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-hashtag mr-2 text-indigo-500"></i>Relevant Hashtags</h3>
+                    <h3><span role="img" aria-label="blue hashtag emoji">#️⃣</span>Relevant Hashtags</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedHashtagsRaw')">
                         <i class="fas fa-copy"></i> Copy All
                     </button>
@@ -361,7 +436,7 @@
             <!-- Generated Long File Name -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-file-alt mr-2 text-indigo-500"></i>Suggested File Name</h3>
+                    <h3><span role="img" aria-label="blue file folder emoji">📁</span>Suggested File Name</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedFileName')">
                         <i class="fas fa-copy"></i> Copy
                     </button>
@@ -372,7 +447,7 @@
             <!-- Suggested Thumbnail Text -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-image mr-2 text-indigo-500"></i>Thumbnail Suggestion</h3>
+                    <h3><span role="img" aria-label="blue camera emoji">📷</span>Thumbnail Suggestion</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedThumbnail')">
                         <i class="fas fa-copy"></i> Copy
                     </button>
@@ -383,7 +458,7 @@
             <!-- Trending Keyword Suggestions -->
             <div class="output-section mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-chart-line mr-2 text-indigo-500"></i>Trending Keyword Suggestions</h3>
+                    <h3><span role="img" aria-label="blue chart emoji">📈</span>Trending Keyword Suggestions</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedTrendingKeywordsRaw')">
                         <i class="fas fa-copy"></i> Copy All
                     </button>
@@ -397,7 +472,7 @@
             <!-- Engagement & CTA Suggestions -->
             <div class="output-section">
                 <div class="flex justify-between items-center mb-2">
-                    <h3><i class="fas fa-bullhorn mr-2 text-indigo-500"></i>Engagement & CTA Suggestions</h3>
+                    <h3><span role="img" aria-label="blue megaphone emoji">📢</span>Engagement & CTA Suggestions</h3>
                     <button class="btn-copy" onclick="copyToClipboard('generatedEngagementRaw')">
                         <i class="fas fa-copy"></i> Copy All
                     </button>
@@ -413,7 +488,7 @@
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay hidden">
         <div class="spinner"></div>
-        <p class="text-gray-700 text-lg mt-4">Generating awesome SEO details...</p>
+        <p class="text-gray-700 text-lg mt-4 loading-text">Generating awesome SEO details...</p>
     </div>
 
     <!-- Message Box for Copy Confirmation -->
@@ -430,9 +505,11 @@
         const videoThemeSelect = document.getElementById('videoTheme');
         const targetAudienceSelect = document.getElementById('targetAudience');
         const videoContentTypeSelect = document.getElementById('videoContentType');
+        const channelNicheInput = document.getElementById('channelNiche');
+        const videoGoalsInput = document.getElementById('videoGoals');
         const uploadTypeRadios = document.querySelectorAll('input[name="uploadType"]');
         const keyPointsInput = document.getElementById('keyPoints');
-        const thumbnailPromptInput = document.getElementById('thumbnailPrompt'); // New thumbnail prompt input
+        const thumbnailPromptInput = document.getElementById('thumbnailPrompt');
         const trendingKeywordsInput = document.getElementById('trendingKeywords');
         const liveStreamSpecificsInput = document.getElementById('liveStreamSpecificsInput');
         const liveStreamDetailsInput = document.getElementById('liveStreamDetails');
@@ -536,8 +613,10 @@
             const videoTheme = videoThemeSelect.value;
             const targetAudience = targetAudienceSelect.value;
             const videoContentType = videoContentTypeSelect.value;
+            const channelNiche = channelNicheInput.value.trim();
+            const videoGoals = videoGoalsInput.value.trim();
             const keyPoints = keyPointsInput.value.trim();
-            const thumbnailPrompt = thumbnailPromptInput.value.trim(); // Get the new thumbnail prompt
+            const thumbnailPrompt = thumbnailPromptInput.value.trim();
             const userTrendingKeywords = trendingKeywordsInput.value.trim();
             const liveStreamDetails = liveStreamDetailsInput.value.trim();
 
@@ -569,27 +648,40 @@
             }
 
             // Construct the prompt for the AI
-            let prompt = `Generate SEO-optimized YouTube video details (title, description, tags, hashtags, a long file name, a thumbnail text suggestion, trending keyword suggestions, and engagement prompts) based on the following information:
+            let prompt = `You are a world-class SEO strategist for YouTube and Google Search. Your goal is to generate SEO-optimized content that drives maximum organic traffic and ranks a video #1.
+
+            Based on the following information, generate a JSON object with the following details:
             - Video Topic/Main Idea: "${videoTopic}"
             - Video Theme/Style: "${videoTheme}"
             - Target Audience: "${targetAudience}"
             - Video Content Type: "${videoContentType}"
             - Upload Type: "${uploadType}"
+            - Channel Niche: "${channelNiche}"
+            - Video Goals: "${videoGoals}"
             ${keyPoints ? `- Key Points/Content Highlights: "${keyPoints}"` : ''}
             ${thumbnailPrompt ? `- Interactive Thumbnail Prompt: "${thumbnailPrompt}"` : ''}
             ${finalTrendingKeywords ? `- Incorporate these trending/highly searchable keywords: "${finalTrendingKeywords}"` : ''}
             ${uploadType === 'live' && liveStreamDetails ? `- Live Stream Specific Details: "${liveStreamDetails}"` : ''}
 
-            The title should be catchy and include relevant keywords.
-            The description should be detailed, include keywords naturally, and encourage engagement.
-            The tags should be a comma-separated list of highly relevant keywords.
-            The hashtags should be a comma-separated list of relevant hashtags, starting with '#'.
-            The long file name should be descriptive and keyword-rich, suitable for SEO.
-            The thumbnail text suggestion should be a short, impactful phrase for a video thumbnail. If an Interactive Thumbnail Prompt is provided, use it to create a more detailed and engaging suggestion.
-            Trending keyword suggestions should be a list of 5-7 additional highly relevant and currently searchable terms.
-            Engagement prompts should be 2-3 short, actionable phrases for the description or live chat to boost interaction. For live and regular videos, specifically include an interactive message to thank viewers for their support and invite them to send a Super Thanks. Also, include a separate call to action to become a channel member.
-            IMPORTANT: Ensure all string values in the JSON are properly escaped (e.g., double quotes like \\" and newlines like \\n).`;
+            The output should be a single JSON object.
 
+            **Instructions for each key:**
+            - **title:** Create a catchy, click-worthy title that incorporates both a strong **emotional hook** (curiosity, urgency, etc.) and the primary keywords. The title must be optimized for both YouTube's algorithm (for discovery) and Google Search (for high-intent searches). Use 2-3 relevant and appealing emojis.
+            - **description:** Write a detailed, engaging, and well-structured description. It must be at least 200 words.
+                - Start with a strong, concise hook that summarizes the video's value.
+                - Naturally embed the primary keyword and LSI (Latent Semantic Indexing) keywords throughout the text.
+                - Include emojis naturally throughout the text to make it more scannable and engaging.
+                - Include a "Timestamps" or "Chapters" section if it's a tutorial or educational video.
+                - End with a strong call-to-action (CTA) that encourages viewers to like, comment, and subscribe.
+                - Mention the creator's expertise to establish E-A-T (Expertise, Authoritativeness, Trustworthiness).
+            - **tags:** Generate a comma-separated array of 15-20 highly relevant tags. Include a mix of **broad keywords** (e.g., "gaming"), **niche keywords** (e.g., "retro horror games"), and **long-tail keywords** (e.g., "first time playing Lethal Company").
+            - **hashtags:** Provide a comma-separated array of 3-5 relevant hashtags.
+            - **long_file_name:** Create a descriptive and keyword-rich file name (e.g., "How-To-Edit-Videos-Fast-Tutorial-For-Beginners.mp4") that is optimized for Google Search ranking.
+            - **thumbnail_suggestion:** Generate a creative and compelling thumbnail text suggestion. If an Interactive Thumbnail Prompt is provided, use it to create a more detailed and engaging suggestion.
+            - **trending_keywords:** List 5-7 additional, high-volume trending keywords or phrases related to the topic that were not used in the title or tags, for future content planning.
+            - **engagement_prompts:** Provide an array of 2-3 short, actionable phrases to be used in the description or live chat to boost interaction. Each prompt should also include a relevant emoji. For live and regular videos, specifically include an interactive message to thank viewers for their support and invite them to send a Super Thanks. Also, include a separate call to action to become a channel member.
+
+            Return the output in a single, properly formatted JSON object. Ensure all string values in the JSON are properly escaped (e.g., double quotes like \\" and newlines like \\n).`;
 
             try {
                 let chatHistory = [];
@@ -715,5 +807,3 @@
     </script>
 </body>
 </html>
-
-
